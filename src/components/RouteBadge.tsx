@@ -61,6 +61,27 @@ const CurrentStationMarker = () => (
   </g>
 );
 
+const getZhNameCondenseConfig = (name: string) => {
+  if (name.length >= 14) {
+    return {
+      letterSpacing: 0,
+      transform: 'scale(0.5,1)',
+    };
+  }
+
+  if (name.length >= 7) {
+    return {
+      letterSpacing: 0,
+      transform: 'scale(0.8,1)',
+    };
+  }
+
+  return {
+    letterSpacing: 4,
+    transform: undefined,
+  };
+};
+
 const TransferBadgeGroup = ({ lines }: { lines: TransferLine[] }) => {
   const gap = 12.5;
   const badgeHeight = 68.5;
@@ -90,7 +111,7 @@ const TransferBadgeGroup = ({ lines }: { lines: TransferLine[] }) => {
 };
 
 const StationTextBlock = ({ station }: { station: StationItem }) => {
-  const shouldCondenseZhName = station.chName.length >= 7;
+  const zhNameCondenseConfig = getZhNameCondenseConfig(station.chName);
 
   return (
     <g>
@@ -99,8 +120,8 @@ const StationTextBlock = ({ station }: { station: StationItem }) => {
         y="51"
         textAnchor="middle"
         fontSize="51px"
-        style={zhTextStyle(shouldCondenseZhName ? 0 : 4)}
-        transform={shouldCondenseZhName ? 'scale(0.8,1)' : undefined}
+        style={zhTextStyle(zhNameCondenseConfig.letterSpacing)}
+        transform={zhNameCondenseConfig.transform}
       >
         {station.chName}
       </text>
@@ -113,6 +134,7 @@ const StationTextBlock = ({ station }: { station: StationItem }) => {
 
 const CurrentStationCard = ({ station }: { station: StationItem }) => {
   const shouldCondenseZhName = station.chName.length >= 7;
+  const zhNameCondenseConfig = getZhNameCondenseConfig(station.chName);
   const cardWidth = Math.max(station.chName.length * 53 + 64, station.enName.length * 18 + 64, 229.5);
   const cardHeight = 89.5;
   const cardX = -cardWidth / 2;
@@ -128,8 +150,8 @@ const CurrentStationCard = ({ station }: { station: StationItem }) => {
         y={cardY + 45.5}
         textAnchor="middle"
         fontSize="51px"
-        style={zhTextStyle(shouldCondenseZhName ? 0 : 3, textColor)}
-        transform={shouldCondenseZhName ? 'scale(0.8,1)' : undefined}
+        style={zhTextStyle(shouldCondenseZhName ? zhNameCondenseConfig.letterSpacing : 3, textColor)}
+        transform={zhNameCondenseConfig.transform}
       >
         {station.chName}
       </text>
