@@ -84,7 +84,7 @@ function App() {
     <main className="page-shell">
       <header className="page-header">
         <p className="eyebrow">Nanjing Metro Prototype</p>
-        <h1>南京地铁车门上方贴纸生成器（Alpha）</h1>
+        <h1>南京地铁屏蔽门上方贴纸生成器（Alpha）</h1>
         <p className="lead">用于演示 SVG 输出骨架</p>
       </header>
 
