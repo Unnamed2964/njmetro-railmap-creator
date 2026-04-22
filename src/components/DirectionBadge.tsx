@@ -1,140 +1,134 @@
-import type { GeneratorState } from "../features/generatorSlice";
-import { BadgePlaceholder } from "./BadgePlaceholder";
+import type { CSSProperties } from 'react';
+import type { GeneratorState } from '../features/generatorSlice';
+import { useSvgPositioner } from './svgPositioning';
 
 type DirectionBadgeProps = {
   data: GeneratorState;
 };
 
+const zhTextStyle = (letterSpacing?: number): CSSProperties => ({
+  fontFamily: 'Microsoft YaHei UI, Microsoft YaHei, sans-serif',
+  fill: '#000000',
+  letterSpacing: letterSpacing ? `${letterSpacing}px` : undefined,
+});
+
+const enTextStyle = (letterSpacing?: number): CSSProperties => ({
+  fontFamily: 'Segoe UI, Arial, sans-serif',
+  fill: '#000000',
+  letterSpacing: letterSpacing ? `${letterSpacing}px` : undefined,
+});
+
+const Arrow = ({ direction }: { direction: 'l' | 'r' }) => {
+  const rotation = direction === 'r' ? 0 : 180;
+  const translateX = direction === 'r' ? 0 : 340;
+  const translateY = direction === 'r' ? 0 : 294.5;
+
+  return (
+    <g transform={`translate(${translateX} ${translateY}) rotate(${rotation})`}>
+      <path d="m 145.5,0 h 71 L 99.5,119 H 340 v 55 H 100 l 120.5,120.5 h -74 L 0,148 Z" fill="#000000" />
+    </g>
+  );
+};
+
+const LineBadge = ({ color }: { color: string }) => (
+  <rect x="0" y="0" width="153.5" height="297.5" rx="8" fill={color} />
+);
+
+const ToLabelBlock = () => (
+  <g>
+    <text fontSize="115.5px" x="0" y="155.5" style={zhTextStyle(6)}>
+      往
+    </text>
+    <text fontSize="55.5px" x="10" y="238.5" style={enTextStyle(3.5)}>
+      To
+    </text>
+  </g>
+);
+
+const StationNameBlock = ({ enName, stationName }: { enName: string; stationName: string }) => (
+  <g>
+    <text fontSize="195.5px" x="0" y="103" style={zhTextStyle(11)}>
+      {stationName}
+    </text>
+    <text fontSize="82.5px" x="0" y="238.5" style={enTextStyle(2)}>
+      {enName.toUpperCase()}
+    </text>
+  </g>
+);
+
+const NextLabelBlock = () => (
+  <g>
+    <text fontSize="115.5px" x="0" y="157.5" style={zhTextStyle(8)}>
+      下一站
+    </text>
+    <text fontSize="55.5px" x="11.5" y="241" style={enTextStyle(3.5)}>
+      Next Station
+    </text>
+  </g>
+);
+
+const NextStationNameBlock = ({ enName, stationName }: { enName: string; stationName: string }) => (
+  <g>
+    <text fontSize="195.5px" x="0" y="104.5" style={zhTextStyle(10.5)}>
+      {stationName}
+    </text>
+    <text fontSize="82.5px" x="0" y="240" style={enTextStyle(0.5)}>
+      {enName.toUpperCase()}
+    </text>
+  </g>
+);
+
 export function DirectionBadge({ data }: DirectionBadgeProps) {
   const { stnList, currentStnId, direction, idColor } = data;
+  const { anchor } = useSvgPositioner(3972, 800);
 
   const width = 3972,
     height = 800;
 
-  const undirectedArrow = (
-    <path
-      d="m 145.5,0 h 71 L 99.5,119 H 340 v 55 H 100 l 120.5,120.5 h -74 L 0,148 Z"
-      fill="black"
-    />
-  );
-
-  const whiteBackground = (
-    <rect
-      id="white-background"
-      x="0"
-      y="0"
-      width={width}
-      height={height}
-      fill="white"
-    />
-  );
-
-  const buttonLine = (
-    <rect
-      id="button-line"
-      x="0.0"
-      y={height - 157.5}
-      width={width}
-      height="157.5"
-      fill={idColor}
-    />
-  );
-
-  const lineBadge = (
-    <rect x="592.0" y="218.0" width="153.5" height="297.5" fill={idColor} />
-  );
-
-  const nextStation =
-    direction === "r"
-      ? stnList.find((stn) => stn.id === currentStnId)
-      : stnList.find((stn) => stn.id === currentStnId);
-
-  const toStation =
-    direction === "r" ? stnList[stnList.length - 1] : stnList[0];
-
-  const toBadge = (
-    <>
-      <text
-        font-family="Microsoft YaHei"
-        font-size="115.5px"
-        x="827.5"
-        y="433.5"
-      >
-        往
-      </text>
-      <text
-        font-family="Microsoft YaHei"
-        font-size="195.5px"
-        x="1035.5"
-        y="381.0"
-        style={{ letterSpacing: "11.0px" }}
-      >
-        {toStation?.chName ?? "不存在或未定义"}
-      </text>
-      <text font-family="FZHei-B01" font-size="55.5px" x="837.5" y="516.5">
-        To
-      </text>
-      <text
-        font-family="FZHei-B01"
-        font-size="82.5px"
-        x="1033.0"
-        y="516.5"
-        style={{ letterSpacing: "4.5px" }}
-      >
-        {toStation?.enName.toUpperCase() ?? "BUCUNZAI HUO WEIDINGYI"}
-      </text>
-    </>
-  );
-
-  const nextBadge = (
-    <>
-      <text
-        font-family="Microsoft YaHei"
-        font-size="115.5px"
-        x="2707.0"
-        y="435.5"
-        style={{ letterSpacing: "8.0px" }}
-      >
-        下一站
-      </text>
-      <text
-        font-family="Microsoft YaHei"
-        font-size="195.5px"
-        x="3186.5"
-        y="382.5"
-        style={{ letterSpacing: "10.5px" }}
-      >
-        {nextStation?.chName ?? "不存在或未定义"}
-      </text>
-      <text
-        font-family="FZHei-B01"
-        font-size="55.5px"
-        x="2718.5"
-        y="519.0"
-        style={{ letterSpacing: "3.5px" }}
-      >
-        Next Station
-      </text>
-      <text
-        font-family="FZHei-B01"
-        font-size="82.5px"
-        x="3186.0"
-        y="518.0"
-        style={{ letterSpacing: "0.5px" }}
-      >
-        {nextStation?.enName.toUpperCase() ?? "BUCUNZAI HUO WEIDINGYI"}
-      </text>
-    </>
-  );
+  const currentIndex = stnList.findIndex((station) => station.id === currentStnId);
+  const nextIndex = currentIndex === -1 ? -1 : direction === 'r' ? currentIndex + 1 : currentIndex - 1;
+  const nextStation = stnList[nextIndex] ?? stnList[currentIndex] ?? null;
+  const toStation = direction === 'r' ? stnList[stnList.length - 1] : stnList[0];
+  const safeToStation = toStation ?? { chName: '不存在或未定义', enName: 'Bucunzai Huo Weidingyi' };
+  const safeNextStation = nextStation ?? { chName: '不存在或未定义', enName: 'Bucunzai Huo Weidingyi' };
 
   return (
     <svg viewBox={`0 0 ${width} ${height}`} className="badge-svg" role="img" aria-label="方向牌">
-        {whiteBackground}
-        {buttonLine}
-        <g id="arrow" transform="translate(171, 219) rotate(0)">{undirectedArrow}</g>
-        {lineBadge}
-        {toBadge}
-        {nextBadge}
+      <rect id="white-background" x="0" y="0" width={width} height={height} fill="white" />
+      <rect id="button-line" x="0" y={height - 157.5} width={width} height="157.5" fill={idColor} />
+
+      {anchor('arrow', <Arrow direction={direction} />, { left: 171, top: 219 })}
+      {anchor('line-badge', <LineBadge color={idColor} />, {
+        left: { to: 'arrow', edge: 'right', gap: 81 },
+        top: 218,
+      })}
+      {anchor('to-label', <ToLabelBlock />, {
+        left: { to: 'line-badge', edge: 'right', gap: 82 },
+        top: 311.5,
+      })}
+      {anchor(
+        'to-station-name',
+        <StationNameBlock
+          enName={safeToStation.enName}
+          stationName={safeToStation.chName}
+        />,
+        {
+          left: { to: 'to-label', edge: 'right', gap: 92 },
+          top: 174,
+        },
+      )}
+      {anchor('next-label', <NextLabelBlock />, {
+        right: { to: 'next-station-name', edge: 'left', gap: 109 },
+        top: 313.5,
+      })}
+      {anchor(
+        'next-station-name',
+        <NextStationNameBlock enName={safeNextStation.enName} stationName={safeNextStation.chName} />,
+        {
+          right: 167.5,
+          top: 176.5,
+        },
+      )}
     </svg>
   );
 }
