@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg width="7412" height="800" viewBox="0 0 7412 800" version="1.1" id="svg1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+  <defs id="defs1">
+    <clipPath id="clip0">
+      <rect x="81" y="1159" width="1889" height="381" id="rect1-1" />
+    </clipPath>
+    <clipPath id="clip1-2">
+      <rect x="0" y="0" width="17992724" height="3629025" id="rect2" />
+    </clipPath>
+    <clipPath id="clip3">
+      <rect x="0" y="0" width="17991786" height="3629025" id="rect3" />
+    </clipPath>
+  </defs>
+  <rect x="-1.8189894e-12" y="0" width="7412" height="800" fill="#ffffff" id="rect11" style="stroke-width:1.48824" />
+  <rect x="4065.5" y="291.99988" width="1641.3407" height="46" fill="#ffff00" id="rect12" style="fill:#009a44;fill-opacity:1;stroke-width:1.01099" />
+  <rect x="-3.6379788e-12" y="642.5" width="7412" height="157.5" fill="#009a44" id="rect13" style="stroke-width:1.48824" />
+  <rect x="5688" y="292.24988" width="1497" height="45.5" fill="#d9d9d9" id="rect22" style="stroke-width:1.00017" />
+  <path d="m 4597.5,314.99987 c 0,-9.5 7.5,-17 17,-17 9.5,0 17,7.5 17,17 0,9.5 -7.5,17 -17,17 -9.5,0 -17,-7.5 -17,-17 z" fill="#ffffff" id="path29" />
+  <path d="m 7152,314.74987 c 0,-18.5 15,-33.5 33,-33.5 18.5,0 33,15 33,33.5 0,18.5 -14.5,33.5 -33,33.5 -18,0 -33,-15 -33,-33.5 z" fill="#d9d9d9" id="path34" />
+  <path d="m 7159.5,314.74987 c 0,-14 11.5,-25.5 25.5,-25.5 14,0 25.5,11.5 25.5,25.5 0,14 -11.5,25.5 -25.5,25.5 -14,0 -25.5,-11.5 -25.5,-25.5 z" fill="#ffffff" id="path35" />
+  <path d="m 5556.5,390 c 0,-9 7.5,-16.5 16.5,-16.5 h 229.5 c 9,0 16.5,7.5 16.5,16.5 v 73 c 0,9 -7.5,16.5 -16.5,16.5 H 5573 c -9,0 -16.5,-7.5 -16.5,-16.5 z" fill="#142966" id="path36" />
+  <rect x="5680" y="313.5" width="15.5" height="76.5" fill="#142966" id="rect36" />
+  <text x="5581.5" y="435.5" fill="#ffffff" font-family="'Microsoft YaHei'" font-size="51px" letter-spacing="3px" id="text36">胜太西路</text>
+  <text x="5610.5" y="464.5" fill="#ffffff" font-family="FZHei-B01" font-size="20px" letter-spacing="1px" id="text37">SHENGTAIXILU</text>
+  <circle cx="5687.5" cy="315.74988" r="37.5" fill="#ff0000" id="path37" />
+  <circle cx="5687.5" cy="315.74988" r="28" fill="#ffffff" id="path38" />
+  <text x="4535.5" y="243.5" fill="#000000" font-family="'Microsoft YaHei'" font-size="51px" letter-spacing="4px" id="text38">卡子门</text>
+  <text x="4566" y="272.24988" fill="#000000" font-family="FZHei-B01" font-size="20px" letter-spacing="1.5px" id="text39">KAZIMEN</text>
+  <text x="4749.5" y="398" fill="#000000" font-family="'Microsoft YaHei'" font-size="51px" letter-spacing="4px" id="text40">大明路</text>
+  <text x="4775" y="427" fill="#000000" font-family="FZHei-B01" font-size="20px" letter-spacing="1px" id="text41">DAMINGLU</text>
+  <rect x="4579.5" y="116.5" width="69.5" height="68.5" fill="#00ffff" id="rect14" />
+  <rect x="5315.5" y="459" width="69.5" height="68.5" fill="#00ffff" id="rect14-5" />
+  <rect x="5233.5" y="459" width="69.5" height="68.5" fill="#00ffff" id="rect14-5-1" />
+  <rect x="5135" y="459" width="36.5" height="68.5" fill="#00ffff" id="rect14-5-1-1" />
+  <rect x="185" y="458.92804" width="36.5" height="68.5" fill="#00ffff" id="rect14-5-1-1-8" />
+  <text xml:space="preserve" style="font-size:32px;line-height:0.89;font-family:'Microsoft YaHei';-inkscape-font-specification:'Microsoft YaHei';letter-spacing:0.81px;writing-mode:lr-tb;direction:ltr;fill:#00ff00;stroke-width:3.2" x="5239.2412" y="579.43927" id="text1">
+    <tspan id="tspan1" x="5239.2412" y="579.43927" style="font-size:32px;fill:#008080">缝隙为<tspan style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Umamichi Nanjing Metro';-inkscape-font-specification:'Umamichi Nanjing Metro'" id="tspan2">12.5</tspan>px</tspan>
+  </text>
+  <g transform="matrix(0.67099081,0,0,0.67099081,-39.509624,-51.002855)" id="g2" style="fill:#000000">
+    <path d="M 226.723,453 H 337.415 L 155.015,269.958 H 529 V 185.071 H 156.008 L 343.027,0 H 227.853 L 1.05066e-4,225.479 H 0 l 1.05066e-4,10e-4 H 0 1.05066e-4 Z" fill="#caeefb" fill-rule="evenodd" transform="matrix(1,0,0,-1,280,769)" id="path1" style="fill:#000000" />
+  </g>
+</svg>

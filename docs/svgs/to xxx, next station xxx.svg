@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+    width="3972.0"
+    height="800.0"
+    viewBox="0 0 3972.0 800.0"
+    xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <rect
+            x="0.0"
+            y="0.0"
+            width="3972.0"
+            height="800.0"
+            fill="#ffffff" />
+        <rect
+            x="592.0"
+            y="218.0"
+            width="153.5"
+            height="297.5"
+            fill="#009a44" />
+        <rect
+            x="0.0"
+            y="642.5"
+            width="3972.0"
+            height="157.5"
+            fill="#009a44" />
+        <path
+            d="m 316.5,219.0 h 71.0 L 270.5,338.0 H 511.0 v 55.0 H 271.0 L 391.5,513.5 H 317.5 L 171.0,367.0 z" />
+        <text
+            font-family='Microsoft YaHei'
+            font-size="115.5px"
+            x="827.5"
+            y="433.5">往</text>
+        <text
+            font-family='Microsoft YaHei'
+            font-size="195.5px"
+            x="1035.5"
+            y="381.0"
+            style="letter-spacing:11.0px">林场</text>
+        <text
+            font-family="FZHei-B01"
+            font-size="55.5px"
+            x="837.5"
+            y="516.5">To</text>
+        <text
+            font-family="FZHei-B01"
+            font-size="82.5px"
+            x="1033.0"
+            y="516.5"
+            style="letter-spacing:4.5px">LINCHANG</text>
+        <text
+            font-family='Microsoft YaHei'
+            font-size="115.5px"
+            x="2707.0"
+            y="435.5"
+            style="letter-spacing:8.0px">下一站</text>
+        <text
+            font-family='Microsoft YaHei'
+            font-size="195.5px"
+            x="3186.5"
+            y="382.5"
+            style="letter-spacing:10.5px">雨花门</text>
+        <text
+            font-family="FZHei-B01"
+            font-size="55.5px"
+            x="2718.5"
+            y="519.0"
+            style="letter-spacing:3.5px">Next Station</text>
+        <text
+            font-family="FZHei-B01"
+            font-size="82.5px"
+            x="3186.0"
+            y="518.0"
+            style="letter-spacing:0.5px">YUHUAMEN</text>
+    </g>
+</svg>
