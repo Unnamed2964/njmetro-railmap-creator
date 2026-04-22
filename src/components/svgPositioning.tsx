@@ -258,7 +258,7 @@ function PositionedSvgElement({ localBoxes, resolvedBoxes, canvas, children, con
 export function useSvgPositioner(width: number, height: number) {
   const [localBoxes, setLocalBoxes] = useState<Record<string, SvgBox>>({});
   const [resolvedBoxes, setResolvedBoxes] = useState<Record<string, SvgBox>>({});
-  const constraintGraphRef = useRef(new Map<string, string[]>());
+  const renderConstraintGraph = new Map<string, string[]>();
 
   const canvas = useMemo(
     () => ({
@@ -294,33 +294,30 @@ export function useSvgPositioner(width: number, height: number) {
     });
   }, []);
 
-  const anchor = useCallback(
-    (id: string, element: ReactNode, constraints: PositionConstraints) => {
-      const targets = collectConstraintTargets(constraints);
-      constraintGraphRef.current.set(id, targets);
+  const anchor = (id: string, element: ReactNode, constraints: PositionConstraints) => {
+    const targets = collectConstraintTargets(constraints);
+    renderConstraintGraph.set(id, targets);
 
-      const cyclePath = detectAnchorCycle(constraintGraphRef.current, id);
+    const cyclePath = detectAnchorCycle(renderConstraintGraph, id);
 
-      if (cyclePath) {
-        throw new Error(`anchor() does not allow cyclic dependencies: ${cyclePath.join(' -> ')}`);
-      }
+    if (cyclePath) {
+      throw new Error(`anchor() does not allow cyclic dependencies: ${cyclePath.join(' -> ')}`);
+    }
 
-      return (
-        <PositionedSvgElement
-          key={id}
-          canvas={canvas}
-          constraints={constraints}
-          id={id}
-          localBoxes={localBoxes}
-          onMeasure={onMeasure}
-          resolvedBoxes={resolvedBoxes}
-        >
-          {element}
-        </PositionedSvgElement>
-      );
-    },
-    [canvas, localBoxes, onMeasure, resolvedBoxes],
-  );
+    return (
+      <PositionedSvgElement
+        key={id}
+        canvas={canvas}
+        constraints={constraints}
+        id={id}
+        localBoxes={localBoxes}
+        onMeasure={onMeasure}
+        resolvedBoxes={resolvedBoxes}
+      >
+        {element}
+      </PositionedSvgElement>
+    );
+  };
 
   return { anchor, position: anchor };
 }
