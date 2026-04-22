@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CurrentStationBadge } from './components/CurrentStationBadge';
 import { DirectionBadge } from './components/DirectionBadge';
 import { RouteBadge } from './components/RouteBadge';
@@ -30,6 +30,29 @@ type ModalState =
     }
   | null;
 
+type ThemeMode = 'light' | 'dark';
+
+const themeStorageKey = 'site-theme';
+
+const getInitialThemeMode = (): ThemeMode => {
+  if (typeof window === 'undefined') {
+    return 'light';
+  }
+
+  const storedTheme = window.localStorage.getItem(themeStorageKey);
+
+  if (storedTheme === 'light' || storedTheme === 'dark') {
+    return storedTheme;
+  }
+
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+};
+
+const applyThemeMode = (themeMode: ThemeMode) => {
+  document.documentElement.classList.toggle('dark', themeMode === 'dark');
+  document.documentElement.style.colorScheme = themeMode;
+};
+
 const sanitizeTransfer = (value: TransferLine[]): TransferLine[] =>
   value
     .map((entry) => ({
@@ -50,6 +73,13 @@ function App() {
   const generator = useAppSelector((state) => state.generator);
   const [modalState, setModalState] = useState<ModalState>(null);
   const [submittedData, setSubmittedData] = useState<GeneratorState>(generator);
+  const [themeMode, setThemeMode] = useState<ThemeMode>('light');
+
+  useEffect(() => {
+    const initialThemeMode = getInitialThemeMode();
+    setThemeMode(initialThemeMode);
+    applyThemeMode(initialThemeMode);
+  }, []);
 
   const openInsertModal = (position: 'before' | 'after' | 'start' | 'end') => {
     setModalState({
@@ -78,14 +108,39 @@ function App() {
     setModalState(null);
   };
 
+  const handleThemeToggle = () => {
+    const nextThemeMode: ThemeMode = themeMode === 'dark' ? 'light' : 'dark';
+    setThemeMode(nextThemeMode);
+    window.localStorage.setItem(themeStorageKey, nextThemeMode);
+    applyThemeMode(nextThemeMode);
+  };
+
   const currentStation = generator.stnList.find((station) => station.id === generator.currentStnId);
 
   return (
     <main className="page-shell">
       <header className="page-header">
-        <p className="eyebrow">Nanjing Metro Prototype</p>
+        <div className="page-meta-row">
+          <p className="eyebrow">Nanjing Metro Prototype</p>
+          <button
+            className="theme-toggle"
+            type="button"
+            onClick={handleThemeToggle}
+            aria-label={themeMode === 'dark' ? '切换到浅色模式' : '切换到深色模式'}
+          >
+            {themeMode === 'dark' ? '切换到浅色模式' : '切换到深色模式'}
+          </button>
+        </div>
         <h1>南京地铁屏蔽门上方贴纸生成器（Alpha）</h1>
         <p className="lead">用于演示 SVG 输出骨架</p>
+        <div className="inline-links" aria-label="外部链接">
+          <a href="https://github.com/unnamed2964/njmetro-railmap-creator" target="_blank" rel="noreferrer">
+            GitHub 仓库
+          </a>
+          <a href="https://umamichi.moe/" target="_blank" rel="noreferrer">
+            个人网站
+          </a>
+        </div>
       </header>
 
       <section className="panel">
