@@ -89,6 +89,18 @@ function App() {
       </header>
 
       <section className="panel">
+        <h2>待办事项</h2>
+        <ul>
+          <li>实现南京地铁线路号方块生成，替换本项目中的线路号方块</li>
+          <li>实现线路图中的箭头，以及含箭头时的排版</li>
+          <li>实现线路图中站名汉字 &gt;= 7 字时的横向压缩</li>
+          <li>实现终点站情况下的 DirectionBadge</li>
+          <li>实现换乘双箭头循环标识</li>
+          <li>实现当前站矩形的正确上下放置</li>
+        </ul>
+      </section>
+
+      <section className="panel">
         <h2>生成设置</h2>
         <div className="form-grid single-column">
           <label>
