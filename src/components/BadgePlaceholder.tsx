@@ -8,6 +8,8 @@ type BadgePlaceholderProps = {
 
 export function BadgePlaceholder({ title, description, data }: BadgePlaceholderProps) {
   const currentStation = data.stnList.find((station) => station.id === data.currentStnId);
+  const segmentCount = Math.max(data.stnList.length - 1, 0);
+  const stnDis = segmentCount === 0 ? 0 : data.totalLength / segmentCount;
 
   return (
     <svg viewBox="0 0 640 180" className="badge-svg" role="img" aria-label={title}>
@@ -23,7 +25,7 @@ export function BadgePlaceholder({ title, description, data }: BadgePlaceholderP
         当前站点: {currentStation?.chName ?? '未选择'} / {currentStation?.enName ?? 'N/A'}
       </text>
       <text x="24" y="154" fill="#51616a" fontSize="16">
-        站点数: {data.stnList.length} | 站间距离: {data.stnDis}px | 方向: {data.direction}
+        站点数: {data.stnList.length} | 总长: {data.totalLength}px | 站间距: {stnDis.toFixed(2)}px | 方向: {data.direction}
       </text>
       <circle cx="548" cy="42" r="12" fill={data.idColor} stroke="#9fb0b9" />
       <text x="568" y="47" fill="#51616a" fontSize="14">

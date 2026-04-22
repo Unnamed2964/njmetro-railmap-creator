@@ -10,7 +10,7 @@ import {
   setCurrentStation,
   setDirection,
   setIdColor,
-  setStationDistance,
+  setTotalLength,
   updateStation,
   type GeneratorState,
   type StationItem,
@@ -92,13 +92,13 @@ function App() {
         <h2>生成设置</h2>
         <div className="form-grid single-column">
           <label>
-            <span>stnDis（站间距离（px））</span>
+            <span>totalLength（总长（px））</span>
             <input
               type="number"
-              min={1}
+              min={0}
               step={1}
-              value={generator.stnDis}
-              onChange={(event) => dispatch(setStationDistance(Number(event.target.value) || 0))}
+              value={generator.totalLength}
+              onChange={(event) => dispatch(setTotalLength(Number(event.target.value) || 0))}
             />
           </label>
           <label>

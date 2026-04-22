@@ -144,11 +144,13 @@ const CurrentStationCard = ({ station }: { station: StationItem }) => {
 };
 
 export function RouteBadge({ data }: RouteBadgeProps) {
-  const { currentStnId, direction, idColor, stnDis, stnList } = data;
+  const { currentStnId, direction, idColor, totalLength, stnList } = data;
   const { anchor } = useSvgPositioner(width, height);
   const currentIndex = stnList.findIndex((station) => station.id === currentStnId);
   const safeCurrentIndex = currentIndex === -1 ? 0 : currentIndex;
-  const lineLength = Math.max(0, (stnList.length - 1) * stnDis);
+  const segmentCount = Math.max(stnList.length - 1, 0);
+  const lineLength = Math.max(0, totalLength);
+  const stnDis = segmentCount === 0 ? 0 : lineLength / segmentCount;
   const inactiveColor = '#d9d9d9';
   const activeSegmentWidth = direction === 'r' ? safeCurrentIndex * stnDis : (stnList.length - 1 - safeCurrentIndex) * stnDis;
   const inactiveSegmentWidth = Math.max(0, lineLength - activeSegmentWidth);

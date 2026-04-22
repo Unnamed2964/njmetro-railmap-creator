@@ -17,7 +17,7 @@ export type TrainDirection = 'l' | 'r';
 export type GeneratorState = {
   stnList: StationItem[];
   currentStnId: string;
-  stnDis: number;
+  totalLength: number;
   direction: TrainDirection;
   idColor: string;
 };
@@ -226,7 +226,7 @@ const initialStations: StationItem[] = [
 const initialState: GeneratorState = {
   stnList: initialStations,
   currentStnId: 'daxinggong',
-  stnDis: 160,
+  totalLength: 6450,
   direction: 'r',
   idColor: '#009A44',
 };
@@ -243,8 +243,8 @@ const generatorSlice = createSlice({
   name: 'generator',
   initialState,
   reducers: {
-    setStationDistance(state, action: PayloadAction<number>) {
-      state.stnDis = action.payload;
+    setTotalLength(state, action: PayloadAction<number>) {
+      state.totalLength = action.payload;
     },
     setDirection(state, action: PayloadAction<TrainDirection>) {
       state.direction = action.payload;
@@ -285,6 +285,6 @@ const generatorSlice = createSlice({
   },
 });
 
-export const { deleteStation, insertStation, setCurrentStation, setDirection, setIdColor, setStationDistance, updateStation } =
+export const { deleteStation, insertStation, setCurrentStation, setDirection, setIdColor, setTotalLength, updateStation } =
   generatorSlice.actions;
 export default generatorSlice.reducer;
