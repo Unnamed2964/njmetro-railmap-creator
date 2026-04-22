@@ -84,6 +84,13 @@ export function DirectionBadge({ data }: DirectionBadgeProps) {
 
   const width = 3972,
     height = 800;
+  const isRightward = direction === 'r';
+  const leftMargin = 171;
+  const rightMargin = 167.5;
+  const arrowGap = 81;
+  const lineBadgeGap = 82;
+  const stationLabelGap = 92;
+  const nextSectionGap = 109;
 
   const currentIndex = stnList.findIndex((station) => station.id === currentStnId);
   const nextIndex = currentIndex === -1 ? -1 : direction === 'r' ? currentIndex + 1 : currentIndex - 1;
@@ -97,38 +104,74 @@ export function DirectionBadge({ data }: DirectionBadgeProps) {
       <rect id="white-background" x="0" y="0" width={width} height={height} fill="white" />
       <rect id="button-line" x="0" y={height - 157.5} width={width} height="157.5" fill={idColor} />
 
-      {anchor('arrow', <Arrow direction={direction} />, { left: 171, top: 219 })}
-      {anchor('line-badge', <LineBadge color={idColor} />, {
-        left: { to: 'arrow', edge: 'right', gap: 81 },
-        top: 218,
-      })}
-      {anchor('to-label', <ToLabelBlock />, {
-        left: { to: 'line-badge', edge: 'right', gap: 82 },
-        top: 311.5,
-      })}
+      {isRightward
+        ? anchor('next-label', <NextLabelBlock />, {
+            left: leftMargin,
+            top: 313.5,
+          })
+        : anchor('arrow', <Arrow direction={direction} />, { left: leftMargin, top: 219 })}
+
+      {isRightward
+        ? anchor(
+            'next-station-name',
+            <NextStationNameBlock enName={safeNextStation.enName} stationName={safeNextStation.chName} />,
+            {
+              left: { to: 'next-label', edge: 'right', gap: nextSectionGap },
+              top: 176.5,
+            },
+          )
+        : anchor('line-badge', <LineBadge color={idColor} />, {
+            left: { to: 'arrow', edge: 'right', gap: arrowGap },
+            top: 218,
+          })}
+
+      {isRightward
+        ? anchor('line-badge', <LineBadge color={idColor} />, {
+            right: { to: 'to-label', edge: 'left', gap: lineBadgeGap },
+            top: 218,
+          })
+        : anchor('to-label', <ToLabelBlock />, {
+            left: { to: 'line-badge', edge: 'right', gap: lineBadgeGap },
+            top: 311.5,
+          })}
+
       {anchor(
         'to-station-name',
         <StationNameBlock
           enName={safeToStation.enName}
           stationName={safeToStation.chName}
         />,
-        {
-          left: { to: 'to-label', edge: 'right', gap: 92 },
-          top: 174,
-        },
+        isRightward
+          ? {
+              right: { to: 'arrow', edge: 'left', gap: arrowGap },
+              top: 174,
+            }
+          : {
+              left: { to: 'to-label', edge: 'right', gap: stationLabelGap },
+              top: 174,
+            },
       )}
-      {anchor('next-label', <NextLabelBlock />, {
-        right: { to: 'next-station-name', edge: 'left', gap: 109 },
-        top: 313.5,
-      })}
-      {anchor(
-        'next-station-name',
-        <NextStationNameBlock enName={safeNextStation.enName} stationName={safeNextStation.chName} />,
-        {
-          right: 167.5,
-          top: 176.5,
-        },
-      )}
+
+      {isRightward
+        ? anchor('to-label', <ToLabelBlock />, {
+            right: { to: 'to-station-name', edge: 'left', gap: stationLabelGap },
+            top: 311.5,
+          })
+        : anchor('next-label', <NextLabelBlock />, {
+            right: { to: 'next-station-name', edge: 'left', gap: nextSectionGap },
+            top: 313.5,
+          })}
+
+      {isRightward
+        ? anchor('arrow', <Arrow direction={direction} />, { right: rightMargin, top: 219 })
+        : anchor(
+            'next-station-name',
+            <NextStationNameBlock enName={safeNextStation.enName} stationName={safeNextStation.chName} />,
+            {
+              right: rightMargin,
+              top: 176.5,
+            },
+          )}
     </svg>
   );
 }
