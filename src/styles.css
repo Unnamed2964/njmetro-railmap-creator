@@ -216,7 +216,7 @@ select {
   padding: 7px 10px;
   border: 1px solid var(--site-border-strong);
   border-radius: var(--radius-sm);
-  background: #ffffff;
+  background: var(--site-surface);
   color: var(--site-fg);
   outline: none;
   font-size: 0.95rem;
@@ -239,7 +239,7 @@ select:focus {
 .danger-button {
   border: 1px solid var(--site-border-strong);
   border-radius: var(--radius-sm);
-  background: #ffffff;
+  background: var(--site-surface);
   color: var(--site-fg);
   min-height: 34px;
   padding: 0 12px;
@@ -257,23 +257,23 @@ select:focus {
 .secondary-button:hover,
 .icon-button:hover,
 .danger-button:hover {
-  background: #f6fbfb;
+  background: var(--site-hover-bg);
 }
 
 .primary-button:hover {
-  background: #c8f1ec;
+  background: color-mix(in srgb, var(--site-accent-soft) 72%, var(--site-hover-bg));
 }
 
 .primary-button:active,
 .secondary-button:active,
 .icon-button:active,
 .danger-button:active {
-  background: #d7dfe3;
+  background: var(--site-active-bg);
   transform: translateY(1px);
 }
 
 .primary-button:active {
-  background: #a9e8df;
+  background: color-mix(in srgb, var(--site-accent-soft) 64%, var(--site-active-bg));
   border-color: var(--site-accent);
 }
 
@@ -325,7 +325,7 @@ select:focus {
   overflow-x: auto;
   border: 1px solid var(--site-border);
   border-radius: 12px;
-  background: #ffffff;
+  background: var(--site-surface);
 }
 
 .station-table {
@@ -370,7 +370,7 @@ select:focus {
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  background: #fbfdfd;
+  background: var(--site-header-bg);
   white-space: nowrap;
 }
 
@@ -379,23 +379,23 @@ select:focus {
 }
 
 .station-table tbody td {
-  background: #ffffff;
+  background: var(--site-surface);
 }
 
 .station-table tbody tr:hover {
-  background: #f7fbfb;
+  background: var(--site-hover-bg);
 }
 
 .station-table tbody tr:hover td {
-  background: #f8fbfb;
+  background: var(--site-hover-bg);
 }
 
 .station-table tbody tr.is-current {
-  background: #eef9f7;
+  background: var(--site-accent-soft);
 }
 
 .station-table tbody tr.is-current td {
-  background: #eef9f7;
+  background: var(--site-accent-soft);
 }
 
 .station-name-cell {
@@ -442,7 +442,7 @@ select:focus {
 .station-action-cell .icon-button {
   margin-left: auto;
   border-color: var(--site-border);
-  background: #fbfdfd;
+  background: var(--site-header-bg);
   color: var(--site-muted-fg);
 }
 
@@ -482,7 +482,7 @@ select:focus {
   display: block;
   border: 1px solid var(--site-border);
   border-radius: 18px;
-  background: #ffffff;
+  background: var(--site-surface);
 }
 
 .modal-backdrop {
@@ -499,7 +499,7 @@ select:focus {
   padding: 16px;
   border: 1px solid var(--site-border-strong);
   border-radius: 16px;
-  background: #ffffff;
+  background: var(--site-surface);
 }
 
 .modal-kicker {
