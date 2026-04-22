@@ -47,7 +47,7 @@ const initialStations: StationItem[] = [
   {
     id: 'dongdachengxianxueyuan',
     chName: '东大成贤学院',
-    enName: 'Southeast University Chengxian College',
+    enName: 'SEU Chengxian College',
     transfer: [],
   },
   {
@@ -95,7 +95,7 @@ const initialStations: StationItem[] = [
   {
     id: 'nanjinglinyedaxuexinzhuang',
     chName: '南京林业大学·新庄',
-    enName: 'Nanjing Forestry University Xinzhuang',
+    enName: 'NFU / Xinzhuang',
     transfer: [],
   },
   {
@@ -161,7 +161,8 @@ const initialStations: StationItem[] = [
   {
     id: 'nanjingnanzhan',
     chName: '南京南站',
-    enName: 'Nanjing South Railway Station',
+    enName: 'Nanjingnan Railway Station', 
+    // should follow "\n( Nanjing South Railway Station )" but here don't support multiple lines
     transfer: [
       { id: '1', color: '#009ACE' },
       { id: 'S1', color: '#4BBBB4' },
@@ -201,7 +202,7 @@ const initialStations: StationItem[] = [
   {
     id: 'dongdajiulonghuxiaoqu',
     chName: '东大九龙湖校区',
-    enName: 'Southeast University Jiulonghu Campus',
+    enName: 'SEU Jiulonghu Campus',
     transfer: [],
   },
   {
@@ -213,7 +214,7 @@ const initialStations: StationItem[] = [
   {
     id: 'shangqinhuaixi',
     chName: '上秦淮西',
-    enName: 'Shangqinhuai West',
+    enName: 'Shangqinhuaixi',
     transfer: [],
   },
   {
