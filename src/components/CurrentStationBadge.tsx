@@ -1,10 +1,44 @@
+import type { CSSProperties } from 'react';
 import type { GeneratorState } from '../features/generatorSlice';
-import { BadgePlaceholder } from './BadgePlaceholder';
 
 type CurrentStationBadgeProps = {
   data: GeneratorState;
 };
 
+const width = 3322;
+const height = 800;
+
+const zhTextStyle = (letterSpacing?: number): CSSProperties => ({
+  fontFamily: 'Microsoft YaHei UI, Microsoft YaHei, sans-serif',
+  fill: '#000000',
+  letterSpacing: letterSpacing ? `${letterSpacing}px` : undefined,
+});
+
+const enTextStyle = (letterSpacing?: number): CSSProperties => ({
+  fontFamily: 'Segoe UI, Arial, sans-serif',
+  fill: '#000000',
+  letterSpacing: letterSpacing ? `${letterSpacing}px` : undefined,
+});
+
 export function CurrentStationBadge({ data }: CurrentStationBadgeProps) {
-  return <BadgePlaceholder title="CurrentStationBadge" description="当前站贴纸组件骨架，后续在这里绘制正式版 SVG。" data={data} />;
+  const { stnList, currentStnId, idColor } = data;
+  const currentStation = stnList.find((station) => station.id === currentStnId) ?? stnList[0] ?? null;
+  const safeStation = currentStation ?? {
+    chName: '不存在或未定义',
+    enName: 'Bucunzai Huo Weidingyi',
+  };
+
+  return (
+    <svg viewBox={`0 0 ${width} ${height}`} className="badge-svg" role="img" aria-label="当前站贴纸">
+      <rect x="0" y="0" width={width} height={height} fill="#ffffff" />
+      <rect x="0" y="642.5" width={width} height="157.5" fill={idColor} />
+
+      <text x={width / 2} y="336" textAnchor="middle" fontSize="246px" style={zhTextStyle(13)}>
+        {safeStation.chName}
+      </text>
+      <text x={width / 2} y="508.5" textAnchor="middle" fontSize="117px" style={enTextStyle(3)}>
+        {safeStation.enName.toUpperCase()}
+      </text>
+    </svg>
+  );
 }

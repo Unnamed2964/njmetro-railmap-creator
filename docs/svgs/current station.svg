@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="3322" height="800" viewBox="0 0 3322 800" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="3322" height="800" fill="#ffffff" />
+  <rect x="0" y="642.5" width="3322" height="157.5" fill="#009a44" />
+  <text
+    x="1289.5"
+    y="336.0"
+    fill="#000000"
+    font-family="Microsoft YaHei"
+    font-size="246px"
+    letter-spacing="13px"
+  >南京站</text>
+  <text
+    x="1323.0"
+    y="508.5"
+    fill="#000000"
+    font-family="FZHei-B01"
+    font-size="117px"
+    letter-spacing="3.0px"
+  >SHANGHAILU</text>
+</svg>
