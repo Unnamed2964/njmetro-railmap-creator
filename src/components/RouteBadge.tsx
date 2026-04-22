@@ -128,6 +128,7 @@ export function RouteBadge({ data }: RouteBadgeProps) {
   const { anchor } = useSvgPositioner(width, height);
   const currentIndex = stnList.findIndex((station) => station.id === currentStnId);
   const safeCurrentIndex = currentIndex === -1 ? 0 : currentIndex;
+  const endpointIndices = stnList.length > 0 ? [...new Set([0, stnList.length - 1])] : [];
   const segmentCount = Math.max(stnList.length - 1, 0);
   const lineLength = Math.max(0, totalLength);
   const stnDis = segmentCount === 0 ? 0 : lineLength / segmentCount;
@@ -178,13 +179,17 @@ export function RouteBadge({ data }: RouteBadgeProps) {
           })
         : null}
 
-      {anchor('station-end-0', <EndStationMarker fill={direction === 'l' ? idColor : inactiveColor} />, {
-        centerX: { to: 'station-point-0', offset: 0 },
-        centerY: { to: 'station-point-0', offset: 0 },
-      })}
-      {anchor(`station-end-${stnList.length - 1}`, <EndStationMarker fill={direction === 'l' ? inactiveColor : idColor} />, {
-        centerX: { to: `station-point-${stnList.length - 1}`, offset: 0 },
-        centerY: { to: `station-point-${stnList.length - 1}`, offset: 0 },
+      {endpointIndices.map((index) => {
+        if (index === safeCurrentIndex) {
+          return null;
+        }
+
+        const fill = index === 0 ? (direction === 'l' ? idColor : inactiveColor) : direction === 'l' ? inactiveColor : idColor;
+
+        return anchor(`station-end-${index}`, <EndStationMarker fill={fill} />, {
+          centerX: { to: `station-point-${index}`, offset: 0 },
+          centerY: { to: `station-point-${index}`, offset: 0 },
+        });
       })}
 
       {stnList.map((station, index) => {
@@ -192,7 +197,7 @@ export function RouteBadge({ data }: RouteBadgeProps) {
         const isEndpoint = index === 0 || index === stnList.length - 1;
         const placeAbove = index % 2 === 0;
         const stationPointId = `station-point-${index}`;
-        const stationMarkerId = isEndpoint ? `station-end-${index}` : isCurrent ? `station-current-${index}` : `station-marker-${index}`;
+        const stationMarkerId = isCurrent ? `station-current-${index}` : isEndpoint ? `station-end-${index}` : `station-marker-${index}`;
 
         return (
           <g key={station.id}>
