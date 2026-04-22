@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import type { GeneratorState, StationItem, TransferLine } from '../features/generatorSlice';
+import { LineIdBadge, getLineIdBadgeWidth } from './LineIdBadge';
 import { useSvgPositioner } from './svgPositioning';
 
 type RouteBadgeProps = {
@@ -60,48 +61,27 @@ const CurrentStationMarker = () => (
   </g>
 );
 
-const lineBadgeWidth = (id: string) => (/^[0-9]$/.test(id) ? 36.5 : 69.5);
-
-const getTransferBadgeTextColor = (backgroundColor: string) => {
-  const normalized = backgroundColor.replace('#', '');
-
-  if (!/^[0-9a-fA-F]{6}$/.test(normalized)) {
-    return '#ffffff';
-  }
-
-  const red = Number.parseInt(normalized.slice(0, 2), 16);
-  const green = Number.parseInt(normalized.slice(2, 4), 16);
-  const blue = Number.parseInt(normalized.slice(4, 6), 16);
-  const luminance = (red * 299 + green * 587 + blue * 114) / 1000;
-
-  return luminance > 160 ? '#0b1114' : '#ffffff';
-};
-
 const TransferBadgeGroup = ({ lines }: { lines: TransferLine[] }) => {
   const gap = 12.5;
-  const widths = lines.map((line) => lineBadgeWidth(line.id));
-  const totalWidth = widths.reduce((sum, width) => sum + width, 0) + gap * Math.max(lines.length - 1, 0);
+  const badgeHeight = 68.5;
+  const supportedLines = lines
+    .map((line) => ({ line, width: getLineIdBadgeWidth(line.id, badgeHeight) }))
+    .filter((entry): entry is { line: TransferLine; width: number } => entry.width !== null);
+  const widths = supportedLines.map((entry) => entry.width);
+  const totalWidth = widths.reduce((sum, width) => sum + width, 0) + gap * Math.max(supportedLines.length - 1, 0);
   let cursorX = -totalWidth / 2;
 
   return (
     <g>
-      {lines.map((line, index) => {
-        const width = widths[index];
+      {supportedLines.map(({ line, width }, index) => {
         const x = cursorX;
         cursorX += width + gap;
 
         return (
           <g key={`${line.id}-${line.color}-${index}`}>
-            <rect x={x} y="0" width={width} height="68.5" rx="8" fill={line.color} />
-            <text
-              x={x + width / 2}
-              y="45.5"
-              textAnchor="middle"
-              fontSize="32px"
-              style={zhTextStyle(0.8, getTransferBadgeTextColor(line.color))}
-            >
-              {line.id}
-            </text>
+            <g transform={`translate(${x} 0)`}>
+              <LineIdBadge lineId={line.id} color={line.color} height={badgeHeight} />
+            </g>
           </g>
         );
       })}

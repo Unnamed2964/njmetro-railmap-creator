@@ -19,6 +19,7 @@ export type GeneratorState = {
   currentStnId: string;
   totalLength: number;
   direction: TrainDirection;
+  lineId: string;
   idColor: string;
 };
 
@@ -228,6 +229,7 @@ const initialState: GeneratorState = {
   currentStnId: 'daxinggong',
   totalLength: 6450,
   direction: 'r',
+  lineId: '3',
   idColor: '#009A44',
 };
 
@@ -248,6 +250,9 @@ const generatorSlice = createSlice({
     },
     setDirection(state, action: PayloadAction<TrainDirection>) {
       state.direction = action.payload;
+    },
+    setLineId(state, action: PayloadAction<string>) {
+      state.lineId = action.payload;
     },
     setIdColor(state, action: PayloadAction<string>) {
       state.idColor = action.payload;
@@ -285,6 +290,6 @@ const generatorSlice = createSlice({
   },
 });
 
-export const { deleteStation, insertStation, setCurrentStation, setDirection, setIdColor, setTotalLength, updateStation } =
+export const { deleteStation, insertStation, setCurrentStation, setDirection, setIdColor, setLineId, setTotalLength, updateStation } =
   generatorSlice.actions;
 export default generatorSlice.reducer;

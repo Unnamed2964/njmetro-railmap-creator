@@ -10,6 +10,7 @@ import {
   setCurrentStation,
   setDirection,
   setIdColor,
+  setLineId,
   setTotalLength,
   updateStation,
   type GeneratorState,
@@ -146,7 +147,6 @@ function App() {
       <section className="panel">
         <h2>待办事项</h2>
         <ul>
-          <li>实现南京地铁线路号方块生成，替换本项目中的线路号方块</li>
           <li>实现线路图中的箭头，以及含箭头时的排版</li>
           <li>实现线路图中站名汉字 &gt;= 7 字时的横向压缩</li>
           <li>实现终点站情况下的 DirectionBadge</li>
@@ -174,6 +174,10 @@ function App() {
               <option value="l">l</option>
               <option value="r">r</option>
             </select>
+          </label>
+          <label>
+            <span>lineId（线路编号）</span>
+            <input type="text" value={generator.lineId} onChange={(event) => dispatch(setLineId(event.target.value.trim().toUpperCase()))} />
           </label>
           <label>
             <span>idColor（线路标识色）</span>

@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import type { GeneratorState } from '../features/generatorSlice';
+import { LineIdBadge } from './LineIdBadge';
 import { useSvgPositioner } from './svgPositioning';
 
 type DirectionBadgeProps = {
@@ -29,10 +30,6 @@ const Arrow = ({ direction }: { direction: 'l' | 'r' }) => {
     </g>
   );
 };
-
-const LineBadge = ({ color }: { color: string }) => (
-  <rect x="0" y="0" width="153.5" height="297.5" rx="8" fill={color} />
-);
 
 const ToLabelBlock = () => (
   <g>
@@ -79,7 +76,7 @@ const NextStationNameBlock = ({ enName, stationName }: { enName: string; station
 );
 
 export function DirectionBadge({ data }: DirectionBadgeProps) {
-  const { stnList, currentStnId, direction, idColor } = data;
+  const { stnList, currentStnId, direction, idColor, lineId } = data;
   const { anchor } = useSvgPositioner(3972, 800);
 
   const width = 3972,
@@ -89,6 +86,7 @@ export function DirectionBadge({ data }: DirectionBadgeProps) {
   const rightMargin = 167.5;
   const arrowGap = 81;
   const lineBadgeGap = 82;
+  const lineBadgeHeight = 297.5;
   const stationLabelGap = 92;
   const nextSectionGap = 109;
 
@@ -120,13 +118,13 @@ export function DirectionBadge({ data }: DirectionBadgeProps) {
               top: 176.5,
             },
           )
-        : anchor('line-badge', <LineBadge color={idColor} />, {
+        : anchor('line-badge', <LineIdBadge lineId={lineId} color={idColor} height={lineBadgeHeight} />, {
             left: { to: 'arrow', edge: 'right', gap: arrowGap },
             top: 218,
           })}
 
       {isRightward
-        ? anchor('line-badge', <LineBadge color={idColor} />, {
+        ? anchor('line-badge', <LineIdBadge lineId={lineId} color={idColor} height={lineBadgeHeight} />, {
             right: { to: 'to-label', edge: 'left', gap: lineBadgeGap },
             top: 218,
           })
