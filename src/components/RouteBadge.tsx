@@ -152,7 +152,7 @@ export function RouteBadge({ data }: RouteBadgeProps) {
   const lineLength = Math.max(0, totalLength);
   const stnDis = segmentCount === 0 ? 0 : lineLength / segmentCount;
   const inactiveColor = '#d9d9d9';
-  const activeSegmentWidth = direction === 'r' ? safeCurrentIndex * stnDis : (stnList.length - 1 - safeCurrentIndex) * stnDis;
+  const activeSegmentWidth = direction === 'l' ? safeCurrentIndex * stnDis : (stnList.length - 1 - safeCurrentIndex) * stnDis;
   const inactiveSegmentWidth = Math.max(0, lineLength - activeSegmentWidth);
   const lineCenterYOffset = lineCenterY - height / 2;
 
@@ -181,7 +181,7 @@ export function RouteBadge({ data }: RouteBadgeProps) {
       {activeSegmentWidth > 0
         ? anchor('route-line-active', <RouteLineSegment color={idColor} width={activeSegmentWidth} />, {
             left:
-              direction === 'r'
+              direction === 'l'
                 ? { to: 'station-point-0', edge: 'left', gap: 0.5 }
                 : { to: `station-point-${safeCurrentIndex}`, edge: 'left', gap: 0.5 },
             centerY: { to: 'station-point-0', offset: 0 },
@@ -191,18 +191,18 @@ export function RouteBadge({ data }: RouteBadgeProps) {
       {inactiveSegmentWidth > 0
         ? anchor('route-line-inactive', <RouteLineSegment color={inactiveColor} width={inactiveSegmentWidth} />, {
             left:
-              direction === 'r'
+              direction === 'l'
                 ? { to: `station-point-${safeCurrentIndex}`, edge: 'left', gap: 0.5 }
                 : { to: 'station-point-0', edge: 'left', gap: 0.5 },
             centerY: { to: 'station-point-0', offset: 0 },
           })
         : null}
 
-      {anchor('station-end-0', <EndStationMarker fill={direction === 'r' ? idColor : inactiveColor} />, {
+      {anchor('station-end-0', <EndStationMarker fill={direction === 'l' ? idColor : inactiveColor} />, {
         centerX: { to: 'station-point-0', offset: 0 },
         centerY: { to: 'station-point-0', offset: 0 },
       })}
-      {anchor(`station-end-${stnList.length - 1}`, <EndStationMarker fill={direction === 'r' ? inactiveColor : idColor} />, {
+      {anchor(`station-end-${stnList.length - 1}`, <EndStationMarker fill={direction === 'l' ? inactiveColor : idColor} />, {
         centerX: { to: `station-point-${stnList.length - 1}`, offset: 0 },
         centerY: { to: `station-point-${stnList.length - 1}`, offset: 0 },
       })}

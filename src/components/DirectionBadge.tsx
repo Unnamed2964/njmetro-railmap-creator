@@ -19,9 +19,9 @@ const enTextStyle = (letterSpacing?: number): CSSProperties => ({
 });
 
 const Arrow = ({ direction }: { direction: 'l' | 'r' }) => {
-  const rotation = direction === 'r' ? 0 : 180;
-  const translateX = direction === 'r' ? 0 : 340;
-  const translateY = direction === 'r' ? 0 : 294.5;
+  const rotation = direction === 'l' ? 0 : 180;
+  const translateX = direction === 'l' ? 0 : 340;
+  const translateY = direction === 'l' ? 0 : 294.5;
 
   return (
     <g transform={`translate(${translateX} ${translateY}) rotate(${rotation})`}>
