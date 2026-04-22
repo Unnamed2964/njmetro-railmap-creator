@@ -295,6 +295,10 @@ export function useSvgPositioner(width: number, height: number) {
   }, []);
 
   const anchor = (id: string, element: ReactNode, constraints: PositionConstraints) => {
+    if (renderConstraintGraph.has(id)) {
+      throw new Error(`anchor() does not allow duplicate ids in the same render: ${id}`);
+    }
+
     const targets = collectConstraintTargets(constraints);
     renderConstraintGraph.set(id, targets);
 
