@@ -10,7 +10,7 @@ type RouteBadgeProps = {
 const zhTextStyle = (letterSpacing?: number, fill = '#000000'): CSSProperties => ({
   fontFamily: 'Microsoft YaHei UI, Microsoft YaHei, sans-serif',
   fill,
-  letterSpacing: letterSpacing ? `${letterSpacing}px` : undefined,
+  letterSpacing: letterSpacing !== undefined ? `${letterSpacing}px` : undefined,
 });
 
 const enTextStyle = (letterSpacing?: number, fill = '#000000'): CSSProperties => ({
@@ -90,9 +90,18 @@ const TransferBadgeGroup = ({ lines }: { lines: TransferLine[] }) => {
 };
 
 const StationTextBlock = ({ station }: { station: StationItem }) => {
+  const shouldCondenseZhName = station.chName.length >= 7;
+
   return (
     <g>
-      <text x="0" y="51" textAnchor="middle" fontSize="51px" style={zhTextStyle(4)}>
+      <text
+        x="0"
+        y="51"
+        textAnchor="middle"
+        fontSize="51px"
+        style={zhTextStyle(shouldCondenseZhName ? 0 : 4)}
+        transform={shouldCondenseZhName ? 'scale(0.8,1)' : undefined}
+      >
         {station.chName}
       </text>
       <text x="0" y="80" textAnchor="middle" fontSize="20px" style={enTextStyle(1.2)}>
@@ -103,6 +112,7 @@ const StationTextBlock = ({ station }: { station: StationItem }) => {
 };
 
 const CurrentStationCard = ({ station }: { station: StationItem }) => {
+  const shouldCondenseZhName = station.chName.length >= 7;
   const cardWidth = Math.max(station.chName.length * 53 + 64, station.enName.length * 18 + 64, 229.5);
   const cardHeight = 89.5;
   const cardX = -cardWidth / 2;
@@ -113,7 +123,14 @@ const CurrentStationCard = ({ station }: { station: StationItem }) => {
     <g>
       <rect x="-7.75" y="0" width="15.5" height={currentCardConnectorHeight} fill="#142966" />
       <rect x={cardX} y={cardY} width={cardWidth} height={cardHeight} rx="16.5" fill="#142966" />
-      <text x="0" y={cardY + 45.5} textAnchor="middle" fontSize="51px" style={zhTextStyle(3, textColor)}>
+      <text
+        x="0"
+        y={cardY + 45.5}
+        textAnchor="middle"
+        fontSize="51px"
+        style={zhTextStyle(shouldCondenseZhName ? 0 : 3, textColor)}
+        transform={shouldCondenseZhName ? 'scale(0.8,1)' : undefined}
+      >
         {station.chName}
       </text>
       <text x="0" y={cardY + 74.5} textAnchor="middle" fontSize="20px" style={enTextStyle(1, textColor)}>
