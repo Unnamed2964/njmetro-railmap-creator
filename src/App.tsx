@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { CurrentStationBadge } from './components/CurrentStationBadge';
 import { DirectionBadge } from './components/DirectionBadge';
 import { RouteBadge } from './components/RouteBadge';
@@ -68,6 +68,51 @@ const toStationItem = (draft: StationFormDraft, id: string): StationItem => ({
   enName: draft.enName.trim(),
   transfer: sanitizeTransfer(draft.transfer),
 });
+
+type DownloadableBadgeCardProps = {
+  title: string;
+  fileName: string;
+  children: ReactNode;
+};
+
+const DownloadableBadgeCard = ({ title, fileName, children }: DownloadableBadgeCardProps) => {
+  const badgeContainerRef = useRef<HTMLDivElement | null>(null);
+
+  const handleDownload = () => {
+    const svgElement = badgeContainerRef.current?.querySelector('svg');
+
+    if (!svgElement) {
+      return;
+    }
+
+    const serializer = new XMLSerializer();
+    const svgMarkup = serializer.serializeToString(svgElement);
+    const svgBlob = new Blob([svgMarkup], { type: 'image/svg+xml;charset=utf-8' });
+    const objectUrl = window.URL.createObjectURL(svgBlob);
+    const downloadLink = document.createElement('a');
+
+    downloadLink.href = objectUrl;
+    downloadLink.download = fileName;
+    document.body.append(downloadLink);
+    downloadLink.click();
+    downloadLink.remove();
+    window.URL.revokeObjectURL(objectUrl);
+  };
+
+  return (
+    <div className="result-block">
+      <h3>{title}</h3>
+      <div ref={badgeContainerRef} className="badge-preview">
+        {children}
+      </div>
+      <div className="result-actions">
+        <button type="button" className="secondary-button" onClick={handleDownload}>
+          下载 SVG
+        </button>
+      </div>
+    </div>
+  );
+};
 
 function App() {
   const dispatch = useAppDispatch();
@@ -210,20 +255,17 @@ function App() {
       <section className="panel result-panel">
         <h2>结果</h2>
 
-        <div className="result-block">
-          <h3>CurrentStationBadge</h3>
+        <DownloadableBadgeCard title="CurrentStationBadge" fileName="current-station-badge.svg">
           <CurrentStationBadge data={submittedData} />
-        </div>
+        </DownloadableBadgeCard>
 
-        <div className="result-block">
-          <h3>DirectionBadge</h3>
+        <DownloadableBadgeCard title="DirectionBadge" fileName="direction-badge.svg">
           <DirectionBadge data={submittedData} />
-        </div>
+        </DownloadableBadgeCard>
 
-        <div className="result-block">
-          <h3>RouteBadge</h3>
+        <DownloadableBadgeCard title="RouteBadge" fileName="route-badge.svg">
           <RouteBadge data={submittedData} />
-        </div>
+        </DownloadableBadgeCard>
       </section>
 
       {modalState ? (

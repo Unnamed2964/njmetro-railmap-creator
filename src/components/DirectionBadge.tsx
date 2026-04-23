@@ -10,7 +10,7 @@ type DirectionBadgeProps = {
 const zhTextStyle = (letterSpacing?: number): CSSProperties => ({
   fontFamily: 'Microsoft YaHei UI, Microsoft YaHei, sans-serif',
   fill: '#000000',
-  letterSpacing: letterSpacing ? `${letterSpacing}px` : undefined,
+  letterSpacing: letterSpacing !== undefined ? `${letterSpacing}px` : undefined,
 });
 
 const enTextStyle = (letterSpacing?: number): CSSProperties => ({
@@ -18,6 +18,27 @@ const enTextStyle = (letterSpacing?: number): CSSProperties => ({
   fill: '#000000',
   letterSpacing: letterSpacing ? `${letterSpacing}px` : undefined,
 });
+
+const getZhNameCondenseConfig = (name: string, defaultLetterSpacing: number) => {
+  if (name.length >= 14) {
+    return {
+      letterSpacing: 0,
+      transform: 'scale(0.5,1)',
+    };
+  }
+
+  if (name.length >= 7) {
+    return {
+      letterSpacing: 0,
+      transform: 'scale(0.8,1)',
+    };
+  }
+
+  return {
+    letterSpacing: defaultLetterSpacing,
+    transform: undefined,
+  };
+};
 
 const Arrow = ({ direction }: { direction: 'l' | 'r' }) => {
   const rotation = direction === 'l' ? 0 : 180;
@@ -42,16 +63,20 @@ const ToLabelBlock = () => (
   </g>
 );
 
-const StationNameBlock = ({ enName, stationName }: { enName: string; stationName: string }) => (
-  <g>
-    <text fontSize="195.5px" x="0" y="103" style={zhTextStyle(11)}>
-      {stationName}
-    </text>
-    <text fontSize="82.5px" x="0" y="238.5" style={enTextStyle(2)}>
-      {enName.toUpperCase()}
-    </text>
-  </g>
-);
+const StationNameBlock = ({ enName, stationName }: { enName: string; stationName: string }) => {
+  const zhNameCondenseConfig = getZhNameCondenseConfig(stationName, 11);
+
+  return (
+    <g>
+      <text fontSize="195.5px" x="0" y="103" style={zhTextStyle(zhNameCondenseConfig.letterSpacing)} transform={zhNameCondenseConfig.transform}>
+        {stationName}
+      </text>
+      <text fontSize="82.5px" x="0" y="238.5" style={enTextStyle(2)}>
+        {enName.toUpperCase()}
+      </text>
+    </g>
+  );
+};
 
 const NextLabelBlock = () => (
   <g>
@@ -64,16 +89,20 @@ const NextLabelBlock = () => (
   </g>
 );
 
-const NextStationNameBlock = ({ enName, stationName }: { enName: string; stationName: string }) => (
-  <g>
-    <text fontSize="195.5px" x="0" y="104.5" style={zhTextStyle(10.5)}>
-      {stationName}
-    </text>
-    <text fontSize="82.5px" x="0" y="240" style={enTextStyle(0.5)}>
-      {enName.toUpperCase()}
-    </text>
-  </g>
-);
+const NextStationNameBlock = ({ enName, stationName }: { enName: string; stationName: string }) => {
+  const zhNameCondenseConfig = getZhNameCondenseConfig(stationName, 10.5);
+
+  return (
+    <g>
+      <text fontSize="195.5px" x="0" y="104.5" style={zhTextStyle(zhNameCondenseConfig.letterSpacing)} transform={zhNameCondenseConfig.transform}>
+        {stationName}
+      </text>
+      <text fontSize="82.5px" x="0" y="240" style={enTextStyle(0.5)}>
+        {enName.toUpperCase()}
+      </text>
+    </g>
+  );
+};
 
 export function DirectionBadge({ data }: DirectionBadgeProps) {
   const { stnList, currentStnId, direction, idColor, lineId } = data;
