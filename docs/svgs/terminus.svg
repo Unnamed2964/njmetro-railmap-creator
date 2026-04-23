@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+   width="3972"
+   height="800.0"
+   viewBox="0 0 3972 800.0"
+   xmlns="http://www.w3.org/2000/svg">
+  <rect
+     id="white-background"
+     x="0"
+     y="0"
+     width="3972"
+     height="800.0"
+     fill="#ffffff" />
+  <rect
+     id="button-line"
+     x="0"
+     y="642.5"
+     width="3972"
+     height="157.5"
+     fill="#009a44" />
+  <rect
+     width="149.0"
+     height="297.5"
+     x="539.5"
+     y="218.0"
+     fill="#009a44" />
+  <rect
+     width="149.0"
+     height="297.5"
+     x="539.5"
+     y="218.0"
+     fill="none" />
+  <text
+     font-size="195.5px"
+     x="773.0"
+     y="371.5"
+     style="font-family:'Microsoft YaHei UI', 'Microsoft YaHei', sans-serif;letter-spacing:11px;fill:#000000">号线</text>
+  <text
+     font-size="82.5px"
+     x="773.0"
+     y="507.0"
+     style="letter-spacing:2px;fill:#000000"><tspan
+       style="font-family:FZHei-B01">Line 3</tspan></text>
+  <text
+     font-size="195.5px"
+     x="2815.5"
+     y="374.0"
+     style="font-family:'Microsoft YaHei UI', 'Microsoft YaHei', sans-serif;letter-spacing:10.5px;fill:#000000">终点站</text>
+  <text
+     font-size="82.5px"
+     x="2947.0"
+     y="509.5"
+     style="letter-spacing:0.5px;fill:#000000"><tspan
+       style="font-family:FZHei-B01">Terminus</tspan></text>
+</svg>

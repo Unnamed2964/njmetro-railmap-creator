@@ -194,7 +194,6 @@ function App() {
         <h2>待办事项</h2>
         <ul>
           <li>实现线路图中的箭头，以及含箭头时的排版</li>
-          <li>实现终点站情况下的 DirectionBadge</li>
         </ul>
       </section>
 

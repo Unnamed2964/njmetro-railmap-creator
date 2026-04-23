@@ -7,6 +7,23 @@ type DirectionBadgeProps = {
   data: GeneratorState;
 };
 
+const width = 3972;
+const height = 800;
+const stackedTextLayout1 = {
+  zhFontSize: '195.5px',
+  zhBaselineY: 103,
+  enFontSize: '82.5px',
+  enBaselineY: 238.5,
+};
+const stackedTextLayout2 = {
+  zhFontSize: '195.5px',
+  zhBaselineY: 104.5,
+  enFontSize: '82.5px',
+  enBaselineY: 240,
+};
+const lineBadgeHeight = 297.5;
+const lineBadgeGap = 82;
+
 const zhTextStyle = (letterSpacing?: number): CSSProperties => ({
   fontFamily: 'Microsoft YaHei UI, Microsoft YaHei, sans-serif',
   fill: '#000000',
@@ -16,7 +33,7 @@ const zhTextStyle = (letterSpacing?: number): CSSProperties => ({
 const enTextStyle = (letterSpacing?: number): CSSProperties => ({
   fontFamily: 'FZHei-B01, Segoe UI, Arial, sans-serif',
   fill: '#000000',
-  letterSpacing: letterSpacing ? `${letterSpacing}px` : undefined,
+  letterSpacing: letterSpacing !== undefined ? `${letterSpacing}px` : undefined,
 });
 
 const Arrow = ({ direction }: { direction: 'l' | 'r' }) => {
@@ -45,15 +62,37 @@ const ToLabelBlock = () => (
 const StationNameBlock = ({ enName, stationName }: { enName: string; stationName: string }) => {
   return (
     <g>
-      <text fontSize="195.5px" x="0" y="103" style={zhTextStyle(11)}>
+      <text fontSize={stackedTextLayout1.zhFontSize} x="0" y={stackedTextLayout1.zhBaselineY} style={zhTextStyle(11)}>
         {stationName}
       </text>
-      <text fontSize="82.5px" x="0" y="238.5" style={enTextStyle(2)}>
+      <text fontSize={stackedTextLayout1.enFontSize} x="0" y={stackedTextLayout1.enBaselineY} style={enTextStyle(2)}>
         {enName.toUpperCase()}
       </text>
     </g>
   );
 };
+
+const LineNameBlock = ({ lineId }: { lineId: string }) => (
+  <g>
+    <text fontSize={stackedTextLayout1.zhFontSize} x="0" y={stackedTextLayout1.zhBaselineY} style={zhTextStyle(11)}>
+      号线
+    </text>
+    <text fontSize={stackedTextLayout1.enFontSize} x="0" y={stackedTextLayout1.enBaselineY} style={enTextStyle(2)}>
+      {`Line ${lineId}`}
+    </text>
+  </g>
+);
+
+const TerminusLabelBlock = () => (
+  <g>
+    <text fontSize={stackedTextLayout1.zhFontSize} x="0" y={stackedTextLayout1.zhBaselineY} textAnchor="middle" style={zhTextStyle(10.5)}>
+      终点站
+    </text>
+    <text fontSize={stackedTextLayout1.enFontSize} x="0" y={stackedTextLayout1.enBaselineY} textAnchor="middle" style={enTextStyle(0.5)}>
+      Terminus
+    </text>
+  </g>
+);
 
 const NextLabelBlock = () => (
   <g>
@@ -69,10 +108,10 @@ const NextLabelBlock = () => (
 const NextStationNameBlock = ({ enName, stationName }: { enName: string; stationName: string }) => {
   return (
     <g>
-      <text fontSize="195.5px" x="0" y="104.5" style={zhTextStyle(10.5)}>
+      <text fontSize={stackedTextLayout2.zhFontSize} x="0" y={stackedTextLayout2.zhBaselineY} style={zhTextStyle(10.5)}>
         {stationName}
       </text>
-      <text fontSize="82.5px" x="0" y="240" style={enTextStyle(0.5)}>
+      <text fontSize={stackedTextLayout2.enFontSize} x="0" y={stackedTextLayout2.enBaselineY} style={enTextStyle(0.5)}>
         {enName.toUpperCase()}
       </text>
     </g>
@@ -81,16 +120,12 @@ const NextStationNameBlock = ({ enName, stationName }: { enName: string; station
 
 export function DirectionBadge({ data }: DirectionBadgeProps) {
   const { stnList, currentStnId, direction, idColor, lineId } = data;
-  const { anchor } = useSvgPositioner(3972, 800);
+  const { anchor } = useSvgPositioner(width, height);
 
-  const width = 3972,
-    height = 800;
   const isRightward = direction === 'r';
   const leftMargin = 171;
   const rightMargin = 167.5;
   const arrowGap = 81;
-  const lineBadgeGap = 82;
-  const lineBadgeHeight = 297.5;
   const stationLabelGap = 92;
   const nextSectionGap = 109;
 
@@ -98,8 +133,34 @@ export function DirectionBadge({ data }: DirectionBadgeProps) {
   const nextIndex = currentIndex === -1 ? -1 : direction === 'r' ? currentIndex + 1 : currentIndex - 1;
   const nextStation = stnList[nextIndex] ?? stnList[currentIndex] ?? null;
   const toStation = direction === 'r' ? stnList[stnList.length - 1] : stnList[0];
+  const isTerminus =
+    currentIndex !== -1 && ((direction === 'r' && currentIndex === stnList.length - 1) || (direction === 'l' && currentIndex === 0));
   const safeToStation = toStation ?? { chName: '不存在或未定义', enName: 'Bucunzai Huo Weidingyi' };
   const safeNextStation = nextStation ?? { chName: '不存在或未定义', enName: 'Bucunzai Huo Weidingyi' };
+
+  if (isTerminus) {
+    return (
+      <svg viewBox={`0 0 ${width} ${height}`} className="badge-svg" role="img" aria-label="终点站方向牌">
+        <rect id="white-background" x="0" y="0" width={width} height={height} fill="white" />
+        <rect id="button-line" x="0" y={height - 157.5} width={width} height="157.5" fill={idColor} />
+
+        {anchor('line-badge', <LineIdBadge lineId={lineId} color={idColor} height={lineBadgeHeight} />, {
+          left: 539.5,
+          top: 218,
+        })}
+
+        {anchor('line-name', <LineNameBlock lineId={lineId} />, {
+          left: { to: 'line-badge', edge: 'right', gap: lineBadgeGap },
+          top: 176.5,
+        })}
+
+        {anchor('terminus-label', <TerminusLabelBlock />, {
+          right: { edge: 'right', gap: 538.5 },
+          top: 174,
+        })}
+      </svg>
+    );
+  }
 
   return (
     <svg viewBox={`0 0 ${width} ${height}`} className="badge-svg" role="img" aria-label="方向牌">
