@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import { useId, type CSSProperties } from 'react';
 import type { GeneratorState, StationItem, TransferLine } from '../features/generatorSlice';
 import { LineIdBadge, getLineIdBadgeWidth } from './LineIdBadge';
 import { useSvgPositioner } from './svgPositioning';
@@ -68,19 +68,18 @@ const CurrentStationMarker = () => (
   </g>
 );
 
-const TransferStationIcon = ({ color, targetHeight }: { color: string; targetHeight: number }) => {
+const TransferStationIcon = ({ color, symbolId, targetHeight }: { color: string; symbolId: string; targetHeight: number }) => {
   const scaledWidth = (transferIconViewBoxWidth / transferIconViewBoxHeight) * targetHeight;
 
   return (
-    <svg
+    <use
+      href={`#${symbolId}`}
       x={-scaledWidth / 2}
       y={-targetHeight / 2}
       width={scaledWidth}
       height={targetHeight}
-      viewBox={`${transferIconViewBoxX} 0 ${transferIconViewBoxWidth} ${transferIconViewBoxHeight}`}
-    >
-      <path fill={color} d={transferIconPath} />
-    </svg>
+      color={color}
+    />
   );
 };
 
@@ -189,6 +188,7 @@ const CurrentStationCard = ({ placeAbove, station }: { placeAbove: boolean; stat
 export function RouteBadge({ data }: RouteBadgeProps) {
   const { currentStnId, direction, idColor, totalLength, stnList } = data;
   const { anchor } = useSvgPositioner(width, height);
+  const transferIconSymbolId = useId().replaceAll(':', '');
   const currentIndex = stnList.findIndex((station) => station.id === currentStnId);
   const safeCurrentIndex = currentIndex === -1 ? 0 : currentIndex;
   const endpointIndices = stnList.length > 0 ? [...new Set([0, stnList.length - 1])] : [];
@@ -211,6 +211,12 @@ export function RouteBadge({ data }: RouteBadgeProps) {
 
   return (
     <svg viewBox={`0 0 ${width} ${height}`} className="badge-svg" role="img" aria-label="线路牌">
+      <defs>
+        <symbol id={transferIconSymbolId} viewBox={`${transferIconViewBoxX} 0 ${transferIconViewBoxWidth} ${transferIconViewBoxHeight}`}>
+          <path fill="currentColor" d={transferIconPath} />
+        </symbol>
+      </defs>
+
       <rect x="0" y="0" width={width} height={height} fill="#ffffff" />
       <rect x="0" y="642.5" width={width} height="157.5" fill={idColor} />
 
@@ -293,7 +299,7 @@ export function RouteBadge({ data }: RouteBadgeProps) {
             {station.transfer.length > 0
               ? anchor(
                   transferIconAnchorId,
-                  <TransferStationIcon color={getTransferStationIconColor(index)} targetHeight={transferIconHeight} />,
+                  <TransferStationIcon color={getTransferStationIconColor(index)} symbolId={transferIconSymbolId} targetHeight={transferIconHeight} />,
                   {
                     centerX: { to: stationMarkerId, offset: 0 },
                     centerY: { to: stationMarkerId, offset: 0 },
