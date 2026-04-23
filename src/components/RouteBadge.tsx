@@ -28,6 +28,12 @@ const endStationRadius = 33.5;
 const endStationInnerRadius = 25.5;
 const currentOuterRadius = 37.5;
 const currentInnerRadius = 28;
+const directionArrowBaseWidth = 340;
+const directionArrowBaseHeight = 294.5;
+const directionArrowWidth = 355;
+const directionArrowGap = 105;
+const directionArrowScale = directionArrowWidth / directionArrowBaseWidth;
+const routeLayoutOffsetX = (directionArrowWidth + directionArrowGap) / 2;
 const topLabelGap = 11;
 const bottomLabelGap = 11;
 const topTransferGap = 130.25;
@@ -70,6 +76,18 @@ const CurrentStationMarker = () => (
     <circle cx="0" cy="0" r={currentInnerRadius} fill="#ffffff" />
   </g>
 );
+
+const DirectionArrow = ({ direction }: { direction: 'l' | 'r' }) => {
+  const rotation = direction === 'l' ? 0 : 180;
+  const translateX = direction === 'l' ? 0 : directionArrowBaseWidth * directionArrowScale;
+  const translateY = direction === 'l' ? 0 : directionArrowBaseHeight * directionArrowScale;
+
+  return (
+    <g transform={`translate(${translateX} ${translateY}) rotate(${rotation}) scale(${directionArrowScale})`}>
+      <path d="m 145.5,0 h 71 L 99.5,119 H 340 v 55 H 100 l 120.5,120.5 h -74 L 0,148 Z" fill="#000000" />
+    </g>
+  );
+};
 
 const TransferStationIcon = ({ color, symbolId, targetHeight }: { color: string; symbolId: string; targetHeight: number }) => {
   const scaledWidth = (transferIconViewBoxWidth / transferIconViewBoxHeight) * targetHeight;
@@ -234,6 +252,8 @@ export function RouteBadge({ data }: RouteBadgeProps) {
   const transferIconSymbolId = useId().replaceAll(':', '');
   const currentIndex = stnList.findIndex((station) => station.id === currentStnId);
   const safeCurrentIndex = currentIndex === -1 ? 0 : currentIndex;
+  const terminusIndex = direction === 'l' ? 0 : Math.max(stnList.length - 1, 0);
+  const terminusPointId = `station-point-${terminusIndex}`;
   const endpointIndices = stnList.length > 0 ? [...new Set([0, stnList.length - 1])] : [];
   const segmentCount = Math.max(stnList.length - 1, 0);
   const lineLength = Math.max(0, totalLength);
@@ -242,6 +262,9 @@ export function RouteBadge({ data }: RouteBadgeProps) {
   const activeSegmentWidth = direction === 'l' ? safeCurrentIndex * stnDis : (stnList.length - 1 - safeCurrentIndex) * stnDis;
   const inactiveSegmentWidth = Math.max(0, lineLength - activeSegmentWidth);
   const lineCenterYOffset = lineCenterY - height / 2;
+  const routeContentOffsetX = direction === 'l' ? routeLayoutOffsetX : -routeLayoutOffsetX;
+  const terminusMarkerRadius = currentIndex !== -1 && safeCurrentIndex === terminusIndex ? currentOuterRadius : endStationRadius;
+  const arrowToTerminusGap = terminusMarkerRadius + directionArrowGap - 0.5;
   const getTransferStationIconColor = (index: number) => {
     if (index === safeCurrentIndex) {
       return currentStationAccent;
@@ -264,9 +287,19 @@ export function RouteBadge({ data }: RouteBadgeProps) {
       <rect x="0" y="642.5" width={width} height="157.5" fill={idColor} />
 
       {anchor('station-point-0', <StationAnchorPoint />, {
-        centerX: -lineLength / 2,
+        centerX: -lineLength / 2 + routeContentOffsetX,
         centerY: lineCenterYOffset,
       })}
+
+      {direction === 'l'
+        ? anchor('direction-arrow', <DirectionArrow direction="l" />, {
+            right: { to: terminusPointId, edge: 'left', gap: arrowToTerminusGap },
+            centerY: { to: terminusPointId, offset: 0 },
+          })
+        : anchor('direction-arrow', <DirectionArrow direction="r" />, {
+            left: { to: terminusPointId, edge: 'right', gap: arrowToTerminusGap },
+            centerY: { to: terminusPointId, offset: 0 },
+          })}
 
       {stnList.slice(1).map((station, index) =>
         anchor(`station-point-${index + 1}`, <StationAnchorPoint />, {

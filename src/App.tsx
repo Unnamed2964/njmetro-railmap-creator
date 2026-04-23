@@ -193,7 +193,7 @@ function App() {
       <section className="panel">
         <h2>待办事项</h2>
         <ul>
-          <li>实现线路图中的箭头，以及含箭头时的排版</li>
+          <li>暂无</li>
         </ul>
       </section>
 

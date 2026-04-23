@@ -228,8 +228,8 @@ const initialStations: StationItem[] = [
 const initialState: GeneratorState = {
   stnList: initialStations,
   currentStnId: 'daxinggong',
-  totalLength: 6450,
-  direction: 'r',
+  totalLength: 6550,
+  direction: 'l',
   lineId: '3',
   idColor: '#009A44',
 };
