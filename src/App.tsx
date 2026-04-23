@@ -195,7 +195,6 @@ function App() {
           <li>实现线路图中的箭头，以及含箭头时的排版</li>
           <li>实现终点站情况下的 DirectionBadge</li>
           <li>实现换乘双箭头循环标识</li>
-          <li>实现当前站矩形的正确上下放置</li>
         </ul>
       </section>
 

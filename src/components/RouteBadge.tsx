@@ -132,18 +132,19 @@ const StationTextBlock = ({ station }: { station: StationItem }) => {
   );
 };
 
-const CurrentStationCard = ({ station }: { station: StationItem }) => {
+const CurrentStationCard = ({ placeAbove, station }: { placeAbove: boolean; station: StationItem }) => {
   const shouldCondenseZhName = station.chName.length >= 7;
   const zhNameCondenseConfig = getZhNameCondenseConfig(station.chName);
   const cardWidth = Math.max(station.chName.length * 53 + 64, station.enName.length * 18 + 64, 229.5);
   const cardHeight = 89.5;
   const cardX = -cardWidth / 2;
-  const cardY = currentCardConnectorHeight;
+  const connectorY = placeAbove ? -currentCardConnectorHeight : 0;
+  const cardY = placeAbove ? -(currentCardConnectorHeight + cardHeight) : currentCardConnectorHeight;
   const textColor = '#ffffff';
 
   return (
     <g>
-      <rect x="-7.75" y="0" width="15.5" height={currentCardConnectorHeight} fill="#142966" />
+      <rect x="-7.75" y={connectorY} width="15.5" height={currentCardConnectorHeight} fill="#142966" />
       <rect x={cardX} y={cardY} width={cardWidth} height={cardHeight} rx="16.5" fill="#142966" />
       <text
         x="0"
@@ -255,9 +256,11 @@ export function RouteBadge({ data }: RouteBadgeProps) {
               : null}
 
             {isCurrent
-              ? anchor(`current-station-card-${index}`, <CurrentStationCard station={station} />, {
+              ? anchor(`current-station-card-${index}`, <CurrentStationCard placeAbove={placeAbove} station={station} />, {
                   centerX: { to: stationMarkerId, offset: 0 },
-                  top: { to: stationMarkerId, edge: 'bottom', gap: 0 },
+                  ...(placeAbove
+                    ? { bottom: { to: stationMarkerId, edge: 'top', gap: 0 } }
+                    : { top: { to: stationMarkerId, edge: 'bottom', gap: 0 } }),
                 })
               : anchor(`station-label-${index}`, <StationTextBlock station={station} />, {
                   centerX: { to: stationPointId, offset: 0 },
@@ -270,7 +273,9 @@ export function RouteBadge({ data }: RouteBadgeProps) {
               ? isCurrent
                 ? anchor(`station-transfer-${index}`, <TransferBadgeGroup lines={station.transfer} />, {
                     centerX: { to: `current-station-card-${index}`, offset: 0 },
-                    top: { to: `current-station-card-${index}`, edge: 'bottom', gap: currentCardGap },
+                    ...(placeAbove
+                      ? { bottom: { to: `current-station-card-${index}`, edge: 'top', gap: currentCardGap } }
+                      : { top: { to: `current-station-card-${index}`, edge: 'bottom', gap: currentCardGap } }),
                   })
                 : anchor(`station-transfer-${index}`, <TransferBadgeGroup lines={station.transfer} />, {
                     centerX: { to: `station-label-${index}`, offset: 0 },
