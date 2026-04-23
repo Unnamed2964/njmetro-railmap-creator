@@ -14,7 +14,7 @@ const zhTextStyle = (letterSpacing?: number, fill = '#000000'): CSSProperties =>
 });
 
 const enTextStyle = (letterSpacing?: number, fill = '#000000'): CSSProperties => ({
-  fontFamily: 'Segoe UI, Arial, sans-serif',
+  fontFamily: 'FZHei-B01, Segoe UI, Arial, sans-serif',
   fill,
   letterSpacing: letterSpacing ? `${letterSpacing}px` : undefined,
 });
