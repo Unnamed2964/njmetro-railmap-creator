@@ -34,6 +34,7 @@ type ModalState =
 type ThemeMode = 'light' | 'dark';
 
 const themeStorageKey = 'site-theme';
+const svgExportComment = '<!-- created by njmetro-railmap-creator, (https://github.com/unnamed2964/njmetro-railmap-creator) -->';
 
 const getInitialThemeMode = (): ThemeMode => {
   if (typeof window === 'undefined') {
@@ -86,7 +87,7 @@ const DownloadableBadgeCard = ({ title, fileName, children }: DownloadableBadgeC
     }
 
     const serializer = new XMLSerializer();
-    const svgMarkup = serializer.serializeToString(svgElement);
+    const svgMarkup = `${svgExportComment}\n${serializer.serializeToString(svgElement)}`;
     const svgBlob = new Blob([svgMarkup], { type: 'image/svg+xml;charset=utf-8' });
     const objectUrl = window.URL.createObjectURL(svgBlob);
     const downloadLink = document.createElement('a');
