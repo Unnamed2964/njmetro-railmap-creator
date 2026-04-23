@@ -1,4 +1,4 @@
-import { useId, type CSSProperties } from 'react';
+import { useId, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
 import type { GeneratorState, StationItem, TransferLine } from '../features/generatorSlice';
 import { LineIdBadge, getLineIdBadgeWidth } from './LineIdBadge';
 import { useSvgPositioner } from './svgPositioning';
@@ -32,8 +32,11 @@ const topLabelGap = 11;
 const bottomLabelGap = 11;
 const topTransferGap = 130.25;
 const bottomTransferGap = 142.75;
-const currentCardConnectorHeight = 36.75;
+const currentCardConnectorHeight = lineThickness / 2 + 35.5;
 const currentCardGap = 12.5;
+const currentCardHorizontalPadding = 23.5;
+const currentCardTopPadding = 12;
+const currentCardBottomPadding = 10.5;
 const transferIconViewBoxX = -10;
 const transferIconViewBoxWidth = 797;
 const transferIconViewBoxHeight = 1000;
@@ -154,23 +157,16 @@ const StationTextBlock = ({ station }: { station: StationItem }) => {
   );
 };
 
-const CurrentStationCard = ({ placeAbove, station }: { placeAbove: boolean; station: StationItem }) => {
+const CurrentStationCardTextBlock = ({ station }: { station: StationItem }) => {
   const shouldCondenseZhName = station.chName.length >= 7;
   const zhNameCondenseConfig = getZhNameCondenseConfig(station.chName);
-  const cardWidth = Math.max(station.chName.length * 53 + 64, station.enName.length * 18 + 64, 229.5);
-  const cardHeight = 89.5;
-  const cardX = -cardWidth / 2;
-  const connectorY = placeAbove ? -currentCardConnectorHeight : 0;
-  const cardY = placeAbove ? -(currentCardConnectorHeight + cardHeight) : currentCardConnectorHeight;
   const textColor = '#ffffff';
 
   return (
     <g>
-      <rect x="-7.75" y={connectorY} width="15.5" height={currentCardConnectorHeight} fill={currentStationAccent} />
-      <rect x={cardX} y={cardY} width={cardWidth} height={cardHeight} rx="16.5" fill={currentStationAccent} />
       <text
         x="0"
-        y={cardY + 45.5}
+        y="51"
         textAnchor="middle"
         fontSize="51px"
         style={zhTextStyle(shouldCondenseZhName ? zhNameCondenseConfig.letterSpacing : 3, textColor)}
@@ -178,9 +174,56 @@ const CurrentStationCard = ({ placeAbove, station }: { placeAbove: boolean; stat
       >
         {station.chName}
       </text>
-      <text x="0" y={cardY + 74.5} textAnchor="middle" fontSize="20px" style={enTextStyle(1, textColor)}>
+      <text x="0" y="80" textAnchor="middle" fontSize="20px" style={enTextStyle(1, textColor)}>
         {station.enName.toUpperCase()}
       </text>
+    </g>
+  );
+};
+
+const CurrentStationCard = ({ placeAbove, station }: { placeAbove: boolean; station: StationItem }) => {
+  const textMeasureRef = useRef<SVGGElement | null>(null);
+  const [textBox, setTextBox] = useState({ x: 0, y: 0, width: 182.5, height: 67 });
+  const cardWidth = textBox.width + currentCardHorizontalPadding * 2;
+  const cardHeight = textBox.height + currentCardTopPadding + currentCardBottomPadding;
+  const cardX = -cardWidth / 2;
+  const connectorY = placeAbove ? -currentCardConnectorHeight : 0;
+  const cardY = placeAbove ? -(currentCardConnectorHeight + cardHeight) : currentCardConnectorHeight;
+  const textTranslateX = -(textBox.x + textBox.width / 2);
+  const textTranslateY = cardY + currentCardTopPadding - textBox.y;
+
+  useLayoutEffect(() => {
+    if (!textMeasureRef.current) {
+      return;
+    }
+
+    const nextTextBox = textMeasureRef.current.getBBox();
+
+    if (
+      textBox.x !== nextTextBox.x ||
+      textBox.y !== nextTextBox.y ||
+      textBox.width !== nextTextBox.width ||
+      textBox.height !== nextTextBox.height
+    ) {
+      setTextBox({
+        x: nextTextBox.x,
+        y: nextTextBox.y,
+        width: nextTextBox.width,
+        height: nextTextBox.height,
+      });
+    }
+  }, [station.chName, station.enName, textBox]);
+
+  return (
+    <g>
+      <rect x="-7.75" y={connectorY} width="15.5" height={currentCardConnectorHeight} fill={currentStationAccent} />
+      <rect x={cardX} y={cardY} width={cardWidth} height={cardHeight} rx="16.5" fill={currentStationAccent} />
+
+      <g transform={`translate(${textTranslateX} ${textTranslateY})`}>
+        <g ref={textMeasureRef}>
+          <CurrentStationCardTextBlock station={station} />
+        </g>
+      </g>
     </g>
   );
 };
@@ -290,6 +333,20 @@ export function RouteBadge({ data }: RouteBadgeProps) {
               : null}
 
             {isCurrent
+              ? anchor(`current-station-card-${index}`, <CurrentStationCard placeAbove={placeAbove} station={station} />, {
+                  centerX: { to: stationPointId, offset: 0 },
+                  ...(placeAbove
+                    ? { bottom: { to: stationPointId, edge: 'bottom', gap: 0.5 } }
+                    : { top: { to: stationPointId, edge: 'top', gap: 0.5 } }),
+                })
+              : anchor(`station-label-${index}`, <StationTextBlock station={station} />, {
+                  centerX: { to: stationPointId, offset: 0 },
+                  ...(placeAbove
+                    ? { bottom: { to: 'route-line-reference', edge: 'top', gap: topLabelGap } }
+                    : { top: { to: 'route-line-reference', edge: 'bottom', gap: bottomLabelGap } }),
+                })}
+
+            {isCurrent
               ? anchor(stationMarkerId, <CurrentStationMarker />, {
                   centerX: { to: stationPointId, offset: 0 },
                   centerY: { to: stationPointId, offset: 0 },
@@ -306,20 +363,6 @@ export function RouteBadge({ data }: RouteBadgeProps) {
                   },
                 )
               : null}
-
-            {isCurrent
-              ? anchor(`current-station-card-${index}`, <CurrentStationCard placeAbove={placeAbove} station={station} />, {
-                  centerX: { to: stationMarkerId, offset: 0 },
-                  ...(placeAbove
-                    ? { bottom: { to: stationMarkerId, edge: 'top', gap: 0 } }
-                    : { top: { to: stationMarkerId, edge: 'bottom', gap: 0 } }),
-                })
-              : anchor(`station-label-${index}`, <StationTextBlock station={station} />, {
-                  centerX: { to: stationPointId, offset: 0 },
-                  ...(placeAbove
-                    ? { bottom: { to: 'route-line-reference', edge: 'top', gap: topLabelGap } }
-                    : { top: { to: 'route-line-reference', edge: 'bottom', gap: bottomLabelGap } }),
-                })}
 
             {station.transfer.length > 0
               ? isCurrent
