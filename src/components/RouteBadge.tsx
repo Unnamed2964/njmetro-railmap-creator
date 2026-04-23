@@ -34,6 +34,13 @@ const topTransferGap = 130.25;
 const bottomTransferGap = 142.75;
 const currentCardConnectorHeight = 36.75;
 const currentCardGap = 12.5;
+const transferIconViewBoxX = -10;
+const transferIconViewBoxWidth = 797;
+const transferIconViewBoxHeight = 1000;
+const transferIconColor = '#000000';
+const currentStationAccent = '#142966';
+const transferIconPath =
+  'M 494,1000 C 494,983 646,881 646,669 C 646,638 640,535 565,452 L 539,423 C 455,500 539,423 455,500 C 448,188 455,500 448,188 L 757,224 L 673,301 L 702,333 C 729,362 787,425 787,566 C 787,858 499,1000 494,1000 Z M 283,0 C 283,17 131,119 131,331 C 131,362 137,464 212,547 L 238,576 C 322,499 238,576 322,499 C 329,810 322,499 329,810 L 20,774 L 105,697 L 76,665 C 49,636 -10,573 -10,432 C -10,142 278,0 283,0 Z';
 
 const StationAnchorPoint = () => <rect x="-0.5" y="-0.5" width="1" height="1" fill="transparent" />;
 
@@ -60,6 +67,22 @@ const CurrentStationMarker = () => (
     <circle cx="0" cy="0" r={currentInnerRadius} fill="#ffffff" />
   </g>
 );
+
+const TransferStationIcon = ({ color, targetHeight }: { color: string; targetHeight: number }) => {
+  const scaledWidth = (transferIconViewBoxWidth / transferIconViewBoxHeight) * targetHeight;
+
+  return (
+    <svg
+      x={-scaledWidth / 2}
+      y={-targetHeight / 2}
+      width={scaledWidth}
+      height={targetHeight}
+      viewBox={`${transferIconViewBoxX} 0 ${transferIconViewBoxWidth} ${transferIconViewBoxHeight}`}
+    >
+      <path fill={color} d={transferIconPath} />
+    </svg>
+  );
+};
 
 const getZhNameCondenseConfig = (name: string) => {
   if (name.length >= 14) {
@@ -144,8 +167,8 @@ const CurrentStationCard = ({ placeAbove, station }: { placeAbove: boolean; stat
 
   return (
     <g>
-      <rect x="-7.75" y={connectorY} width="15.5" height={currentCardConnectorHeight} fill="#142966" />
-      <rect x={cardX} y={cardY} width={cardWidth} height={cardHeight} rx="16.5" fill="#142966" />
+      <rect x="-7.75" y={connectorY} width="15.5" height={currentCardConnectorHeight} fill={currentStationAccent} />
+      <rect x={cardX} y={cardY} width={cardWidth} height={cardHeight} rx="16.5" fill={currentStationAccent} />
       <text
         x="0"
         y={cardY + 45.5}
@@ -176,6 +199,15 @@ export function RouteBadge({ data }: RouteBadgeProps) {
   const activeSegmentWidth = direction === 'l' ? safeCurrentIndex * stnDis : (stnList.length - 1 - safeCurrentIndex) * stnDis;
   const inactiveSegmentWidth = Math.max(0, lineLength - activeSegmentWidth);
   const lineCenterYOffset = lineCenterY - height / 2;
+  const getTransferStationIconColor = (index: number) => {
+    if (index === safeCurrentIndex) {
+      return currentStationAccent;
+    }
+
+    const isAheadStation = direction === 'l' ? index < safeCurrentIndex : index > safeCurrentIndex;
+
+    return isAheadStation ? transferIconColor : inactiveColor;
+  };
 
   return (
     <svg viewBox={`0 0 ${width} ${height}`} className="badge-svg" role="img" aria-label="线路牌">
@@ -238,6 +270,9 @@ export function RouteBadge({ data }: RouteBadgeProps) {
         const placeAbove = index % 2 === 0;
         const stationPointId = `station-point-${index}`;
         const stationMarkerId = isCurrent ? `station-current-${index}` : isEndpoint ? `station-end-${index}` : `station-marker-${index}`;
+        const transferIconAnchorId = `station-transfer-icon-${index}`;
+        const transferCircleDiameter = isCurrent ? currentInnerRadius * 2 : isEndpoint ? endStationInnerRadius * 2 : smallStationRadius * 2;
+        const transferIconHeight = transferCircleDiameter * 0.8;
 
         return (
           <g key={station.id}>
@@ -253,6 +288,17 @@ export function RouteBadge({ data }: RouteBadgeProps) {
                   centerX: { to: stationPointId, offset: 0 },
                   centerY: { to: stationPointId, offset: 0 },
                 })
+              : null}
+
+            {station.transfer.length > 0
+              ? anchor(
+                  transferIconAnchorId,
+                  <TransferStationIcon color={getTransferStationIconColor(index)} targetHeight={transferIconHeight} />,
+                  {
+                    centerX: { to: stationMarkerId, offset: 0 },
+                    centerY: { to: stationMarkerId, offset: 0 },
+                  },
+                )
               : null}
 
             {isCurrent
