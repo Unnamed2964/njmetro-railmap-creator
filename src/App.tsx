@@ -184,12 +184,12 @@ function App() {
         <div className="docs-callout">
           <strong>参考资料与推导过程</strong>
           <p>
-            字形、版式、站名处理和各类贴纸的拆解过程都整理在
+            参考资料、尺寸记录与推导过程见
             {' '}
             <a href={docsReferenceUrl} target="_blank" rel="noreferrer">
               docs/
             </a>
-            ，这里集中存放原始参考、尺寸记录和中间推导。
+            。
           </p>
         </div>
         <div className="inline-links" aria-label="外部链接">
@@ -197,7 +197,7 @@ function App() {
             GitHub 仓库
           </a>
           <a href={docsReferenceUrl} target="_blank" rel="noreferrer">
-            docs/ 参考资料
+            参考资料（docs/）
           </a>
           <a href="https://umamichi.moe/" target="_blank" rel="noreferrer">
             个人网站
@@ -208,7 +208,7 @@ function App() {
       <section className="panel">
         <h2>待办事项</h2>
         <ul>
-          <li>暂无</li>
+          <li>处理不同字体情况下的兼容</li>
         </ul>
       </section>
 
