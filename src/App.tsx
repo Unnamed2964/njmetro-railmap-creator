@@ -35,6 +35,7 @@ type ThemeMode = 'light' | 'dark';
 
 const themeStorageKey = 'site-theme';
 const svgExportComment = '<!-- created by njmetro-railmap-creator, (https://github.com/unnamed2964/njmetro-railmap-creator) -->';
+const docsReferenceUrl = 'https://github.com/Unnamed2964/njmetro-railmap-creator/tree/main/docs';
 
 const getInitialThemeMode = (): ThemeMode => {
   if (typeof window === 'undefined') {
@@ -180,9 +181,23 @@ function App() {
         </div>
         <h1>南京地铁屏蔽门上方贴纸生成器（Alpha）</h1>
         <p className="lead">用于演示 SVG 输出骨架</p>
+        <div className="docs-callout">
+          <strong>参考资料与推导过程</strong>
+          <p>
+            字形、版式、站名处理和各类贴纸的拆解过程都整理在
+            {' '}
+            <a href={docsReferenceUrl} target="_blank" rel="noreferrer">
+              docs/
+            </a>
+            ，这里集中存放原始参考、尺寸记录和中间推导。
+          </p>
+        </div>
         <div className="inline-links" aria-label="外部链接">
           <a href="https://github.com/unnamed2964/njmetro-railmap-creator" target="_blank" rel="noreferrer">
             GitHub 仓库
+          </a>
+          <a href={docsReferenceUrl} target="_blank" rel="noreferrer">
+            docs/ 参考资料
           </a>
           <a href="https://umamichi.moe/" target="_blank" rel="noreferrer">
             个人网站

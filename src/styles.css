@@ -161,6 +161,26 @@ h3 {
   line-height: 1.65;
 }
 
+.docs-callout {
+  margin-top: 18px;
+  padding: 14px 16px;
+  border: 1px solid var(--site-accent-border);
+  border-radius: var(--radius-md);
+  background: var(--site-accent-soft);
+}
+
+.docs-callout strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.98rem;
+}
+
+.docs-callout p {
+  margin: 0;
+  color: var(--site-muted-fg);
+  line-height: 1.6;
+}
+
 .inline-links {
   display: flex;
   flex-wrap: wrap;
