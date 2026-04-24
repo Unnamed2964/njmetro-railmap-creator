@@ -36,6 +36,23 @@ type ThemeMode = 'light' | 'dark';
 const themeStorageKey = 'site-theme';
 const svgExportComment = '<!-- created by njmetro-railmap-creator, (https://github.com/unnamed2964/njmetro-railmap-creator) -->';
 const docsReferenceUrl = 'https://github.com/Unnamed2964/njmetro-railmap-creator/tree/main/docs';
+const sampleImages = [
+  {
+    title: '终点站示例',
+    description: '线路标识与 Terminus 贴纸',
+    src: new URL('../docs/svgs/terminus.svg', import.meta.url).href,
+  },
+  {
+    title: '方向贴纸示例',
+    description: '往某站 / 下一站 组合样式',
+    src: new URL('../docs/svgs/to xxx, next station xxx.svg', import.meta.url).href,
+  },
+  {
+    title: '路线图示例',
+    description: '含当前站、换乘与后续站点的线路图',
+    src: new URL('../docs/svgs/route2.svg', import.meta.url).href,
+  },
+] as const;
 
 const getInitialThemeMode = (): ThemeMode => {
   if (typeof window === 'undefined') {
@@ -122,6 +139,7 @@ function App() {
   const [modalState, setModalState] = useState<ModalState>(null);
   const [submittedData, setSubmittedData] = useState<GeneratorState>(generator);
   const [themeMode, setThemeMode] = useState<ThemeMode>('light');
+  const [isExampleModalOpen, setIsExampleModalOpen] = useState(false);
 
   useEffect(() => {
     const initialThemeMode = getInitialThemeMode();
@@ -202,6 +220,9 @@ function App() {
           <a href="https://umamichi.moe/" target="_blank" rel="noreferrer">
             个人网站
           </a>
+          <button type="button" className="example-trigger" onClick={() => setIsExampleModalOpen(true)}>
+            查看示例
+          </button>
         </div>
       </header>
 
@@ -297,6 +318,39 @@ function App() {
           }
           onSubmit={handleModalSubmit}
         />
+      ) : null}
+
+      {isExampleModalOpen ? (
+        <div className="example-modal-backdrop" role="presentation" onClick={() => setIsExampleModalOpen(false)}>
+          <section
+            className="example-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="example-modal-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="example-modal-header">
+              <div>
+                <h2 id="example-modal-title">参考样例</h2>
+                <p className="panel-subtitle">以下图片来自 docs/svgs，仅用于版式参考，并非当前表单的实时输出。</p>
+              </div>
+              <button type="button" className="icon-button" aria-label="关闭示例浮窗" onClick={() => setIsExampleModalOpen(false)}>
+                ×
+              </button>
+            </div>
+            <div className="example-gallery">
+              {sampleImages.map((sample) => (
+                <figure key={sample.title} className="example-card">
+                  <img src={sample.src} alt={sample.title} loading="lazy" />
+                  <figcaption>
+                    <strong>{sample.title}</strong>
+                    <span>{sample.description}</span>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </section>
+        </div>
       ) : null}
     </main>
   );

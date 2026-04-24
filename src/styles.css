@@ -184,9 +184,32 @@ h3 {
 .inline-links {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 16px;
   margin-top: 14px;
   font-size: 0.95rem;
+}
+
+.example-trigger {
+  margin-left: auto;
+  border: 1px solid var(--site-accent-border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--site-fg);
+  min-height: 34px;
+  padding: 0 14px;
+  font-size: 0.92rem;
+  transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+
+.example-trigger:hover {
+  border-color: var(--site-accent);
+  background: var(--site-accent-soft);
+}
+
+.example-trigger:focus-visible {
+  outline: 2px solid rgba(0, 139, 139, 0.2);
+  outline-offset: 1px;
 }
 
 .panel {
@@ -219,6 +242,98 @@ h3 {
 
 .single-column {
   max-width: 280px;
+}
+
+.example-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(11, 17, 20, 0.52);
+}
+
+.example-modal {
+  width: min(72rem, calc(100vw - 32px));
+  max-height: min(88vh, 64rem);
+  overflow: auto;
+  padding: 20px;
+  border: 1px solid var(--site-border);
+  border-radius: 24px;
+  background: var(--site-surface);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.24);
+}
+
+.example-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.example-modal-header .panel-subtitle {
+  margin-bottom: 0;
+}
+
+.example-gallery {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.example-card {
+  margin: 0;
+  border: 1px solid var(--site-border);
+  border-radius: var(--radius-md);
+  background: var(--site-surface);
+  overflow: hidden;
+}
+
+.example-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #ffffff;
+}
+
+.example-card figcaption {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px 14px;
+}
+
+.example-card strong {
+  font-size: 0.98rem;
+}
+
+.example-card span {
+  color: var(--site-muted-fg);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 720px) {
+  .example-modal-backdrop {
+    padding: 12px;
+  }
+
+  .example-modal {
+    width: 100%;
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .example-gallery {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .example-trigger {
+    margin-left: 0;
+  }
 }
 
 label {
