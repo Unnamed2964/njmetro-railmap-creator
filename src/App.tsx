@@ -40,17 +40,17 @@ const sampleImages = [
   {
     title: '终点站示例',
     description: '线路标识与 Terminus 贴纸',
-    src: new URL('../docs/svgs/terminus.svg', import.meta.url).href,
+    src: `${import.meta.env.BASE_URL}example-gallery/terminus-badge.webp`,
   },
   {
     title: '方向贴纸示例',
     description: '往某站 / 下一站 组合样式',
-    src: new URL('../docs/svgs/to xxx, next station xxx.svg', import.meta.url).href,
+    src: `${import.meta.env.BASE_URL}example-gallery/direction-badge.webp`,
   },
   {
     title: '路线图示例',
     description: '含当前站、换乘与后续站点的线路图',
-    src: new URL('../docs/svgs/route2.svg', import.meta.url).href,
+    src: `${import.meta.env.BASE_URL}example-gallery/route-badge.webp`,
   },
 ] as const;
 
