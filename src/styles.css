@@ -626,7 +626,6 @@ select:focus {
   height: auto;
   display: block;
   border: 1px solid var(--site-border);
-  border-radius: 18px;
   background: var(--site-surface);
 }
 
