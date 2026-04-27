@@ -336,7 +336,7 @@ h3 {
 .example-card {
   margin: 0;
   border: 1px solid var(--site-border);
-  border-radius: var(--radius-md);
+  border-radius: 0;
   background: var(--site-surface);
   overflow: hidden;
 }
@@ -509,7 +509,7 @@ select:focus {
   margin-top: 14px;
   overflow-x: auto;
   border: 1px solid var(--site-border);
-  border-radius: 12px;
+  border-radius: 0;
   background: var(--site-surface);
 }
 
