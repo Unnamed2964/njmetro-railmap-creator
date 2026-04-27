@@ -17,6 +17,7 @@ import {
   type StationItem,
   type TransferLine,
 } from './features/generatorSlice';
+import { detectTargetFonts, targetFontSignatures, type FontDetectionResult } from './fontSignature';
 import { useAppDispatch, useAppSelector } from './hooks';
 
 type ModalState =
@@ -36,6 +37,12 @@ type ThemeMode = 'light' | 'dark';
 const themeStorageKey = 'site-theme';
 const svgExportComment = '<!-- created by njmetro-railmap-creator, (https://github.com/unnamed2964/njmetro-railmap-creator) -->';
 const docsReferenceUrl = 'https://github.com/Unnamed2964/njmetro-railmap-creator/tree/main/docs';
+const fallbackFontDetectionResults: FontDetectionResult[] = Object.entries(targetFontSignatures).map(([fontFamily, expectedWidths]) => ({
+  fontFamily: fontFamily as FontDetectionResult['fontFamily'],
+  widths: null,
+  expectedWidths,
+  detected: false,
+}));
 const sampleImages = [
   {
     title: '终点站示例',
@@ -140,11 +147,34 @@ function App() {
   const [submittedData, setSubmittedData] = useState<GeneratorState>(generator);
   const [themeMode, setThemeMode] = useState<ThemeMode>('light');
   const [isExampleModalOpen, setIsExampleModalOpen] = useState(false);
+  const [fontDetectionResults, setFontDetectionResults] = useState<FontDetectionResult[]>(fallbackFontDetectionResults);
+  const [fontDetectionState, setFontDetectionState] = useState<'idle' | 'checking' | 'done'>('idle');
 
   useEffect(() => {
     const initialThemeMode = getInitialThemeMode();
     setThemeMode(initialThemeMode);
     applyThemeMode(initialThemeMode);
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    setFontDetectionState('checking');
+
+    void (async () => {
+      const nextResults = await detectTargetFonts();
+
+      if (cancelled) {
+        return;
+      }
+
+      setFontDetectionResults(nextResults);
+      setFontDetectionState('done');
+    })();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const openInsertModal = (position: 'before' | 'after' | 'start' | 'end') => {
@@ -182,6 +212,7 @@ function App() {
   };
 
   const currentStation = generator.stnList.find((station) => station.id === generator.currentStnId);
+  const missingTargetFonts = fontDetectionResults.filter((result) => !result.detected);
 
   return (
     <main className="page-shell">
@@ -229,8 +260,34 @@ function App() {
       <section className="panel">
         <h2>待办事项</h2>
         <ul>
-          <li>处理不同字体情况下的兼容</li>
+          <li>暂无</li>
         </ul>
+      </section>
+
+      <section className="panel">
+        <h2>字体检测</h2>
+        <p className="panel-subtitle">
+          使用与旧项目相同的 Canvas 字形宽度签名检查目标字体是否存在，避免预览与导出在不同设备上静默回退。
+        </p>
+        <p className="font-detection-summary">
+          {fontDetectionState === 'checking'
+            ? '正在测量 Microsoft YaHei、FZHei-B01、Helvetica。'
+            : missingTargetFonts.length === 0
+              ? '三种目标字体均已检测到。'
+              : `以下字体未通过签名校验：${missingTargetFonts.map((result) => result.fontFamily).join('、')}。`}
+        </p>
+        <div className="font-detection-list" role="list" aria-label="字体检测结果">
+          {fontDetectionResults.map((result) => (
+            <article key={result.fontFamily} className="font-detection-card" role="listitem">
+              <div className="font-detection-header">
+                <strong>{result.fontFamily}</strong>
+                <span className={`status-pill ${result.detected ? 'success' : fontDetectionState === 'checking' ? 'pending' : 'warning'}`}>
+                  {fontDetectionState === 'checking' ? '检测中' : result.detected ? '已检测到' : '未检测到'}
+                </span>
+              </div>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section className="panel">

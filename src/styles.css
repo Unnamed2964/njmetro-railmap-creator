@@ -181,6 +181,32 @@ h3 {
   line-height: 1.6;
 }
 
+.font-detection-summary {
+  margin-bottom: 14px;
+  color: var(--site-muted-fg);
+  line-height: 1.65;
+}
+
+.font-detection-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.font-detection-card {
+  padding: 14px 16px;
+  border: 1px solid var(--site-border);
+  border-radius: var(--radius-md);
+  background: var(--site-surface);
+}
+
+.font-detection-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .inline-links {
   display: flex;
   flex-wrap: wrap;
@@ -210,6 +236,24 @@ h3 {
 .example-trigger:focus-visible {
   outline: 2px solid rgba(0, 139, 139, 0.2);
   outline-offset: 1px;
+}
+
+.status-pill.pending {
+  border-color: var(--site-accent-border);
+  background: var(--site-accent-soft);
+  color: var(--site-fg);
+}
+
+.status-pill.success {
+  border-color: rgba(15, 118, 110, 0.2);
+  background: rgba(15, 118, 110, 0.08);
+  color: var(--site-link);
+}
+
+.status-pill.warning {
+  border-color: rgba(192, 57, 43, 0.2);
+  background: rgba(192, 57, 43, 0.08);
+  color: var(--site-danger);
 }
 
 .panel {
