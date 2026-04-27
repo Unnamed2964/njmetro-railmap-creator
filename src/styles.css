@@ -12,6 +12,9 @@
   --site-accent: #008b8b;
   --site-accent-soft: #dff9f7;
   --site-accent-border: #8bd9d0;
+  --site-success: #2e7d32;
+  --site-success-soft: rgba(46, 125, 50, 0.1);
+  --site-success-border: rgba(46, 125, 50, 0.24);
   --site-danger: #c0392b;
   --site-link: #0f766e;
   --site-link-hover: #115e59;
@@ -38,6 +41,9 @@ html.dark {
   --site-accent: #67e8f9;
   --site-accent-soft: rgba(103, 232, 249, 0.14);
   --site-accent-border: rgba(103, 232, 249, 0.32);
+  --site-success: #6ccf73;
+  --site-success-soft: rgba(108, 207, 115, 0.16);
+  --site-success-border: rgba(108, 207, 115, 0.34);
   --site-danger: #f87171;
   --site-link: #67e8f9;
   --site-link-hover: #a5f3fc;
@@ -245,9 +251,9 @@ h3 {
 }
 
 .status-pill.success {
-  border-color: rgba(15, 118, 110, 0.2);
-  background: rgba(15, 118, 110, 0.08);
-  color: var(--site-link);
+  border-color: var(--site-success-border);
+  background: var(--site-success-soft);
+  color: var(--site-success);
 }
 
 .status-pill.warning {
