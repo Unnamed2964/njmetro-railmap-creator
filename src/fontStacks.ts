@@ -8,16 +8,20 @@ export const sansZhFontStack = [
   '"Source Han Sans SC"',
   '"Source Han Sans CN"',
   '"WenQuanYi Micro Hei"',
-  '"Helvetica Neue"',
-  'Helvetica',
-  'Arial',
   '"Segoe UI"',
   'sans-serif',
 ].join(', ');
 
 export const sansLatinFontStack = [
-  '"Helvetica Neue"',
+  '"FZHei-B01"',
+  'Arial',
+  '"Segoe UI"',
+  'sans-serif',
+].join(', ');
+
+export const lineIdFontStack = [
   'Helvetica',
+  '"Helvetica Neue"',
   'Arial',
   '"Segoe UI"',
   'sans-serif',
