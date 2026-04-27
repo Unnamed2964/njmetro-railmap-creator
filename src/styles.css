@@ -18,7 +18,7 @@
   --radius-lg: 20px;
   --radius-md: 10px;
   --radius-sm: 8px;
-  font-family: "Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Segoe UI", sans-serif;
+  font-family: "Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Noto Sans SC", "Source Han Sans SC", "Source Han Sans CN", "WenQuanYi Micro Hei", "Helvetica Neue", Helvetica, Arial, "Segoe UI", sans-serif;
   color: var(--site-fg);
   background: var(--site-bg);
   color-scheme: light;

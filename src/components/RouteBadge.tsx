@@ -1,5 +1,6 @@
 import { useId, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
 import type { GeneratorState, StationItem, TransferLine } from '../features/generatorSlice';
+import { sansLatinFontStack, sansZhFontStack } from '../fontStacks';
 import { LineIdBadge, getLineIdBadgeWidth } from './LineIdBadge';
 import { useSvgPositioner } from './svgPositioning';
 
@@ -8,13 +9,13 @@ type RouteBadgeProps = {
 };
 
 const zhTextStyle = (letterSpacing?: number, fill = '#000000'): CSSProperties => ({
-  fontFamily: 'Microsoft YaHei UI, Microsoft YaHei, sans-serif',
+  fontFamily: sansZhFontStack,
   fill,
   letterSpacing: letterSpacing !== undefined ? `${letterSpacing}px` : undefined,
 });
 
 const enTextStyle = (letterSpacing?: number, fill = '#000000'): CSSProperties => ({
-  fontFamily: 'FZHei-B01, Segoe UI, Arial, sans-serif',
+  fontFamily: sansLatinFontStack,
   fill,
   letterSpacing: letterSpacing ? `${letterSpacing}px` : undefined,
 });

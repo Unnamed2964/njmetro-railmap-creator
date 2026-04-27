@@ -1,3 +1,5 @@
+import { sansLatinFontStack } from '../fontStacks';
+
 type LineIdBadgeProps = {
   lineId: string;
   color: string;
@@ -68,8 +70,9 @@ export const getLineIdBadgeWidth = (lineId: string, height: number) => {
 // use href so that the SVG can be embedded as an image and the bbox can be properly calculated based on the image's width and height,
 // avoiding number and characher enlarging the SVG's bbox when the SVG is directly embedded as XML in the main SVG, which causes incorrect vertical layout.
 const buildBadgeSvg = (template: SupportedBadgeTemplate, color: string) => {
-  const textStyle1000 = 'font-size:1000px;font-family:Helvetica;fill:#ffffff';
-  const textStyle950 = 'font-size:950px;font-family:Helvetica;fill:#ffffff';
+  const escapedLatinFontStack = escapeXml(sansLatinFontStack);
+  const textStyle1000 = `font-size:1000px;font-family:${escapedLatinFontStack};fill:#ffffff`;
+  const textStyle950 = `font-size:950px;font-family:${escapedLatinFontStack};fill:#ffffff`;
 
   switch (template.kind) {
     case 'n':

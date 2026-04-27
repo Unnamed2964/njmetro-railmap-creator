@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import type { GeneratorState } from '../features/generatorSlice';
+import { sansLatinFontStack, sansZhFontStack } from '../fontStacks';
 import { LineIdBadge } from './LineIdBadge';
 import { useSvgPositioner } from './svgPositioning';
 
@@ -25,13 +26,13 @@ const lineBadgeHeight = 297.5;
 const lineBadgeGap = 82;
 
 const zhTextStyle = (letterSpacing?: number): CSSProperties => ({
-  fontFamily: 'Microsoft YaHei UI, Microsoft YaHei, sans-serif',
+  fontFamily: sansZhFontStack,
   fill: '#000000',
   letterSpacing: letterSpacing !== undefined ? `${letterSpacing}px` : undefined,
 });
 
 const enTextStyle = (letterSpacing?: number): CSSProperties => ({
-  fontFamily: 'FZHei-B01, Segoe UI, Arial, sans-serif',
+  fontFamily: sansLatinFontStack,
   fill: '#000000',
   letterSpacing: letterSpacing !== undefined ? `${letterSpacing}px` : undefined,
 });
