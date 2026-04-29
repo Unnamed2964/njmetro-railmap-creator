@@ -251,7 +251,7 @@ function App() {
           <a href="https://umamichi.moe/" target="_blank" rel="noreferrer">
             个人网站
           </a>
-          <button type="button" className="example-trigger" onClick={() => setIsExampleModalOpen(true)}>
+          <button type="button" className="ghost-button example-trigger" onClick={() => setIsExampleModalOpen(true)}>
             查看示例
           </button>
         </div>
@@ -293,9 +293,10 @@ function App() {
       <section className="panel">
         <h2>生成设置</h2>
         <div className="form-grid single-column">
-          <label>
+          <label className="field-label">
             <span>totalLength（总长（px））</span>
             <input
+              className="text-input"
               type="number"
               min={0}
               step={1}
@@ -303,18 +304,27 @@ function App() {
               onChange={(event) => dispatch(setTotalLength(Number(event.target.value) || 0))}
             />
           </label>
-          <label>
+          <label className="field-label">
             <span>direction（列车行进方向）</span>
-            <select value={generator.direction} onChange={(event) => dispatch(setDirection(event.target.value as 'l' | 'r'))}>
+            <select
+              className="solver-select"
+              value={generator.direction}
+              onChange={(event) => dispatch(setDirection(event.target.value as 'l' | 'r'))}
+            >
               <option value="l">l</option>
               <option value="r">r</option>
             </select>
           </label>
-          <label>
+          <label className="field-label">
             <span>lineId（线路编号）</span>
-            <input type="text" value={generator.lineId} onChange={(event) => dispatch(setLineId(event.target.value.trim().toUpperCase()))} />
+            <input
+              className="text-input"
+              type="text"
+              value={generator.lineId}
+              onChange={(event) => dispatch(setLineId(event.target.value.trim().toUpperCase()))}
+            />
           </label>
-          <label>
+          <label className="field-label">
             <span>idColor（线路标识色）</span>
             <input type="color" value={generator.idColor} onChange={(event) => dispatch(setIdColor(event.target.value))} />
           </label>

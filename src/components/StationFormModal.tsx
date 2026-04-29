@@ -94,25 +94,27 @@ export function StationFormModal({
             onSubmit(draft);
           }}
         >
-          <label>
+          <label className="field-label">
             <span>chName（中文名）</span>
             <input
+              className="text-input"
               value={draft.chName}
               onChange={(event) => setDraft((current) => ({ ...current, chName: event.target.value }))}
               placeholder="例如：新街口"
               required
             />
           </label>
-          <label>
+          <label className="field-label">
             <span>enName（英文名）</span>
             <input
+              className="text-input"
               value={draft.enName}
               onChange={(event) => setDraft((current) => ({ ...current, enName: event.target.value }))}
               placeholder="例如：Xinjiekou"
               required
             />
           </label>
-          <label>
+          <label className="field-label">
             <span>transfer（换乘线路）</span>
             <div className="modal-transfer-editor">
               <div className="table-wrap modal-transfer-table-wrap">
@@ -135,6 +137,7 @@ export function StationFormModal({
                         <tr key={`transfer-line-${index}`}>
                           <td>
                             <input
+                              className="text-input"
                               value={line.id}
                               onChange={(event) => updateTransferLine(index, 'id', event.target.value)}
                               placeholder="例如：2 或 S1"
