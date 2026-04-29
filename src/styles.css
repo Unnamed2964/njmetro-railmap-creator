@@ -12,9 +12,9 @@
   --site-accent: #008b8b;
   --site-accent-soft: #dff9f7;
   --site-accent-border: #8bd9d0;
-  --site-success: #2e7d32;
-  --site-success-soft: rgba(46, 125, 50, 0.1);
-  --site-success-border: rgba(46, 125, 50, 0.24);
+  --site-success: #16a34a;
+  --site-success-soft: rgba(220, 252, 231, 0.9);
+  --site-success-border: rgba(22, 163, 74, 0.35);
   --site-danger: #c0392b;
   --site-link: #0f766e;
   --site-link-hover: #115e59;
@@ -41,9 +41,9 @@ html.dark {
   --site-accent: #67e8f9;
   --site-accent-soft: rgba(103, 232, 249, 0.14);
   --site-accent-border: rgba(103, 232, 249, 0.32);
-  --site-success: #6ccf73;
-  --site-success-soft: rgba(108, 207, 115, 0.16);
-  --site-success-border: rgba(108, 207, 115, 0.34);
+  --site-success: #4ade80;
+  --site-success-soft: rgba(22, 101, 52, 0.28);
+  --site-success-border: rgba(74, 222, 128, 0.35);
   --site-danger: #f87171;
   --site-link: #67e8f9;
   --site-link-hover: #a5f3fc;
