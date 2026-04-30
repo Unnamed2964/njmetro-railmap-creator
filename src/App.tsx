@@ -35,6 +35,7 @@ type ModalState =
 type ThemeMode = 'light' | 'dark';
 
 const themeStorageKey = 'site-theme';
+const themeTransitionLockClassName = 'theme-transition-lock';
 const svgExportComment = '<!-- created by njmetro-railmap-creator, (https://github.com/unnamed2964/njmetro-railmap-creator) -->';
 const docsReferenceUrl = 'https://github.com/Unnamed2964/njmetro-railmap-creator/tree/main/docs';
 const fallbackFontDetectionResults: FontDetectionResult[] = Object.entries(targetFontSignatures).map(([fontFamily, expectedWidths]) => ({
@@ -75,9 +76,36 @@ const getInitialThemeMode = (): ThemeMode => {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 };
 
-const applyThemeMode = (themeMode: ThemeMode) => {
-  document.documentElement.classList.toggle('dark', themeMode === 'dark');
-  document.documentElement.style.colorScheme = themeMode;
+let themeTransitionLockToken = 0;
+
+const scheduleThemeTransitionUnlock = () => {
+  themeTransitionLockToken += 1;
+  const currentLockToken = themeTransitionLockToken;
+
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
+      if (themeTransitionLockToken !== currentLockToken) {
+        return;
+      }
+
+      document.documentElement.classList.remove(themeTransitionLockClassName);
+    });
+  });
+};
+
+const applyThemeMode = (themeMode: ThemeMode, disableTransitions = false) => {
+  const rootElement = document.documentElement;
+
+  if (disableTransitions) {
+    rootElement.classList.add(themeTransitionLockClassName);
+  }
+
+  rootElement.classList.toggle('dark', themeMode === 'dark');
+  rootElement.style.colorScheme = themeMode;
+
+  if (disableTransitions) {
+    scheduleThemeTransitionUnlock();
+  }
 };
 
 const sanitizeTransfer = (value: TransferLine[]): TransferLine[] =>
@@ -208,7 +236,7 @@ function App() {
     const nextThemeMode: ThemeMode = themeMode === 'dark' ? 'light' : 'dark';
     setThemeMode(nextThemeMode);
     window.localStorage.setItem(themeStorageKey, nextThemeMode);
-    applyThemeMode(nextThemeMode);
+    applyThemeMode(nextThemeMode, true);
   };
 
   const currentStation = generator.stnList.find((station) => station.id === generator.currentStnId);
