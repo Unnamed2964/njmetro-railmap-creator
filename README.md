@@ -4,6 +4,8 @@
 
 南京地铁屏蔽门上方贴纸生成器的原型项目。当前仓库主要用于编辑线路、站点与方向参数，并在页面中预览生成的 SVG 结果。
 
+本项目受到 [RMG](https://github.com/railmapgen/rmg) 项目的启发，在此表示感谢。
+
 ## 项目入口
 
 - Cloudflare Pages：https://njmetro-railmap-creator.umamichi.moe

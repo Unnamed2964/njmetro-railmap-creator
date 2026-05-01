@@ -258,6 +258,15 @@ function App() {
         </div>
         <h1>南京地铁屏蔽门上方贴纸生成器（Alpha）</h1>
         <p className="lead">用于演示 SVG 输出骨架</p>
+        <p>
+          本项目受到
+          {' '}
+          <a href="https://github.com/railmapgen/rmg" target="_blank" rel="noreferrer">
+            RMG
+          </a>
+          {' '}
+          项目的启发，在此表示感谢。
+        </p>
         <div className="docs-callout">
           <strong>参考资料与推导过程</strong>
           <p>
