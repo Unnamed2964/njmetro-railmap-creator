@@ -297,7 +297,7 @@ function App() {
       <section className="panel">
         <h2>待办事项</h2>
         <ul>
-          <li>暂无</li>
+          <li>在火车站或机场是当前站时添加火车站或机场标识</li>
         </ul>
       </section>
 
