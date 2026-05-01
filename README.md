@@ -5,7 +5,7 @@
 ## 项目入口
 
 - Cloudflare Pages：https://njmetro-railmap-creator.umamichi.moe
-- GitHub 仓库：https://github.com/unnamed2964/njmetro-railmap-creator
+- GitHub 仓库：https://github.com/kyuri-metro/njmetro-railmap-creator
 - 个人网站：https://umamichi.moe/
 - 仓库文档：参见 [docs/](docs/)
 

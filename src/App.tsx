@@ -36,8 +36,8 @@ type ThemeMode = 'light' | 'dark';
 
 const themeStorageKey = 'site-theme';
 const themeTransitionLockClassName = 'theme-transition-lock';
-const svgExportComment = '<!-- created by njmetro-railmap-creator, (https://github.com/unnamed2964/njmetro-railmap-creator) -->';
-const docsReferenceUrl = 'https://github.com/Unnamed2964/njmetro-railmap-creator/tree/main/docs';
+const svgExportComment = '<!-- created by njmetro-railmap-creator, (https://github.com/kyuri-metro/njmetro-railmap-creator) -->';
+const docsReferenceUrl = 'https://github.com/kyuri-metro/njmetro-railmap-creator/tree/main/docs';
 const fallbackFontDetectionResults: FontDetectionResult[] = Object.entries(targetFontSignatures).map(([fontFamily, expectedWidths]) => ({
   fontFamily: fontFamily as FontDetectionResult['fontFamily'],
   widths: null,
@@ -270,7 +270,7 @@ function App() {
           </p>
         </div>
         <div className="inline-links" aria-label="外部链接">
-          <a href="https://github.com/unnamed2964/njmetro-railmap-creator" target="_blank" rel="noreferrer">
+          <a href="https://github.com/kyuri-metro/njmetro-railmap-creator" target="_blank" rel="noreferrer">
             GitHub 仓库
           </a>
           <a href={docsReferenceUrl} target="_blank" rel="noreferrer">
