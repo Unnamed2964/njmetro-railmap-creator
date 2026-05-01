@@ -20,15 +20,15 @@
 
 ### 终点站示例
 
-![Terminus example](docs/svgs/terminus.svg)
+![Terminus example](docs/svgs/terminus-badge.webp)
 
 ### 方向贴纸示例
 
-![Direction badge example](docs/svgs/to%20xxx,%20next%20station%20xxx.svg)
+![Direction badge example](docs/svgs/direction-badge.webp)
 
 ### 路线图示例
 
-![Route map example](docs/svgs/route2.svg)
+![Route map example](docs/svgs/route-badge.webp)
 
 ## TODO
 
