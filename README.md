@@ -24,15 +24,15 @@
 
 ### 终点站示例
 
-![Terminus example](docs/svgs/terminus-badge.webp)
+![Terminus example](public/assets/terminus-badge.webp)
 
 ### 方向贴纸示例
 
-![Direction badge example](docs/svgs/direction-badge.webp)
+![Direction badge example](public/assets/direction-badge.webp)
 
 ### 路线图示例
 
-![Route map example](docs/svgs/route-badge.webp)
+![Route map example](public/assets/route-badge.webp)
 
 ## TODO
 

@@ -48,17 +48,17 @@ const sampleImages = [
   {
     title: '终点站示例',
     description: '线路标识与 Terminus 贴纸',
-    src: `${import.meta.env.BASE_URL}example-gallery/terminus-badge.webp`,
+    src: `${import.meta.env.BASE_URL}assets/terminus-badge.webp`,
   },
   {
     title: '方向贴纸示例',
     description: '往某站 / 下一站 组合样式',
-    src: `${import.meta.env.BASE_URL}example-gallery/direction-badge.webp`,
+    src: `${import.meta.env.BASE_URL}assets/direction-badge.webp`,
   },
   {
     title: '路线图示例',
     description: '含当前站、换乘与后续站点的线路图',
-    src: `${import.meta.env.BASE_URL}example-gallery/route-badge.webp`,
+    src: `${import.meta.env.BASE_URL}assets/route-badge.webp`,
   },
 ] as const;
 
@@ -436,7 +436,7 @@ function App() {
             <div className="example-modal-header">
               <div>
                 <h2 id="example-modal-title">参考样例</h2>
-                <p className="panel-subtitle">以下图片来自 docs/svgs，仅用于版式参考，并非当前表单的实时输出。</p>
+                <p className="panel-subtitle">以下图片来自 public/assets，仅用于版式参考，并非当前表单的实时输出。</p>
               </div>
               <button type="button" className="icon-button" aria-label="关闭示例浮窗" onClick={() => setIsExampleModalOpen(false)}>
                 ×
