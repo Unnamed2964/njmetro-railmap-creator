@@ -1,11 +1,18 @@
 import { useEffect, useState } from 'react';
-import type { StationItem, TransferLine } from '../features/generatorSlice';
+import type { StationItem, StationType, TransferLine } from '../features/generatorSlice';
 
 export type StationFormDraft = {
   chName: string;
   enName: string;
+  type: StationType;
   transfer: TransferLine[];
 };
+
+const stationTypeOptions: { label: string; value: StationType }[] = [
+  { label: '无', value: 'none' },
+  { label: '火车站', value: 'railway' },
+  { label: '机场', value: 'airport' },
+];
 
 const createEmptyTransferLine = (): TransferLine => ({
   id: '',
@@ -115,6 +122,20 @@ export function StationFormModal({
             />
           </label>
           <label className="field-label">
+            <span>type（站点类型）</span>
+            <select
+              className="text-input"
+              value={draft.type}
+              onChange={(event) => setDraft((current) => ({ ...current, type: event.target.value as StationType }))}
+            >
+              {stationTypeOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="field-label">
             <span>transfer（换乘线路）</span>
             <div className="modal-transfer-editor">
               <div className="table-wrap modal-transfer-table-wrap">
@@ -197,5 +218,6 @@ export function StationFormModal({
 export const stationToDraft = (station?: StationItem): StationFormDraft => ({
   chName: station?.chName ?? '',
   enName: station?.enName ?? '',
+  type: station?.type ?? 'none',
   transfer: station?.transfer.map((line) => ({ ...line })) ?? [],
 });

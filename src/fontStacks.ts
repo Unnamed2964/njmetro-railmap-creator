@@ -26,3 +26,5 @@ export const lineIdFontStack = [
   '"Segoe UI"',
   'sans-serif',
 ].join(', ');
+
+export const njmetroDingsFontStack = '"Umamichi\'s Njmetro Dings"';

@@ -1,6 +1,6 @@
 import { useId, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
 import type { GeneratorState, StationItem, TransferLine } from '../features/generatorSlice';
-import { sansLatinFontStack, sansZhFontStack } from '../fontStacks';
+import { njmetroDingsFontStack, sansLatinFontStack, sansZhFontStack } from '../fontStacks';
 import { LineIdBadge, getLineIdBadgeWidth } from './LineIdBadge';
 import { useSvgPositioner } from './svgPositioning';
 
@@ -19,6 +19,19 @@ const enTextStyle = (letterSpacing?: number, fill = '#000000'): CSSProperties =>
   fill,
   letterSpacing: letterSpacing ? `${letterSpacing}px` : undefined,
 });
+
+const stationTypeIconMap = {
+  railway: '\uE000',
+  airport: '\uE001',
+} as const;
+
+const getStationTypeIcon = (type: StationItem['type']) => {
+  if (type === 'none') {
+    return null;
+  }
+
+  return stationTypeIconMap[type];
+};
 
 const width = 7412;
 const height = 800;
@@ -154,8 +167,9 @@ const TransferBadgeGroup = ({ lines }: { lines: TransferLine[] }) => {
   );
 };
 
-const StationTextBlock = ({ station }: { station: StationItem }) => {
+const StationTextBlock = ({ showStationTypeIcons, station }: { showStationTypeIcons: boolean; station: StationItem }) => {
   const zhNameCondenseConfig = getZhNameCondenseConfig(station.chName);
+  const stationTypeIcon = showStationTypeIcons ? getStationTypeIcon(station.type) : null;
 
   return (
     <g>
@@ -167,6 +181,7 @@ const StationTextBlock = ({ station }: { station: StationItem }) => {
         style={zhTextStyle(zhNameCondenseConfig.letterSpacing)}
         transform={zhNameCondenseConfig.transform}
       >
+        {stationTypeIcon ? <tspan fontFamily={njmetroDingsFontStack}>{stationTypeIcon}</tspan> : null}
         {station.chName}
       </text>
       <text x="0" y="80" textAnchor="middle" fontSize="20px" style={enTextStyle(1.2)}>
@@ -176,9 +191,10 @@ const StationTextBlock = ({ station }: { station: StationItem }) => {
   );
 };
 
-const CurrentStationCardTextBlock = ({ station }: { station: StationItem }) => {
+const CurrentStationCardTextBlock = ({ showStationTypeIcons, station }: { showStationTypeIcons: boolean; station: StationItem }) => {
   const shouldCondenseZhName = station.chName.length >= 7;
   const zhNameCondenseConfig = getZhNameCondenseConfig(station.chName);
+  const stationTypeIcon = showStationTypeIcons ? getStationTypeIcon(station.type) : null;
   const textColor = '#ffffff';
 
   return (
@@ -191,6 +207,7 @@ const CurrentStationCardTextBlock = ({ station }: { station: StationItem }) => {
         style={zhTextStyle(shouldCondenseZhName ? zhNameCondenseConfig.letterSpacing : 3, textColor)}
         transform={zhNameCondenseConfig.transform}
       >
+        {stationTypeIcon ? <tspan fontFamily={njmetroDingsFontStack}>{stationTypeIcon}</tspan> : null}
         {station.chName}
       </text>
       <text x="0" y="80" textAnchor="middle" fontSize="20px" style={enTextStyle(1, textColor)}>
@@ -200,7 +217,7 @@ const CurrentStationCardTextBlock = ({ station }: { station: StationItem }) => {
   );
 };
 
-const CurrentStationCard = ({ placeAbove, station }: { placeAbove: boolean; station: StationItem }) => {
+const CurrentStationCard = ({ placeAbove, showStationTypeIcons, station }: { placeAbove: boolean; showStationTypeIcons: boolean; station: StationItem }) => {
   const textMeasureRef = useRef<SVGGElement | null>(null);
   const [textBox, setTextBox] = useState({ x: 0, y: 0, width: 182.5, height: 67 });
   const cardWidth = textBox.width + currentCardHorizontalPadding * 2;
@@ -231,7 +248,7 @@ const CurrentStationCard = ({ placeAbove, station }: { placeAbove: boolean; stat
         height: nextTextBox.height,
       });
     }
-  }, [station.chName, station.enName, textBox]);
+  }, [showStationTypeIcons, station.chName, station.enName, station.type, textBox]);
 
   return (
     <g>
@@ -240,7 +257,7 @@ const CurrentStationCard = ({ placeAbove, station }: { placeAbove: boolean; stat
 
       <g transform={`translate(${textTranslateX} ${textTranslateY})`}>
         <g ref={textMeasureRef}>
-          <CurrentStationCardTextBlock station={station} />
+          <CurrentStationCardTextBlock showStationTypeIcons={showStationTypeIcons} station={station} />
         </g>
       </g>
     </g>
@@ -248,7 +265,7 @@ const CurrentStationCard = ({ placeAbove, station }: { placeAbove: boolean; stat
 };
 
 export function RouteBadge({ data }: RouteBadgeProps) {
-  const { currentStnId, direction, idColor, totalLength, stnList } = data;
+  const { currentStnId, direction, idColor, showStationTypeIcons, totalLength, stnList } = data;
   const { anchor } = useSvgPositioner(width, height);
   const transferIconSymbolId = useId().replaceAll(':', '');
   const currentIndex = stnList.findIndex((station) => station.id === currentStnId);
@@ -367,13 +384,17 @@ export function RouteBadge({ data }: RouteBadgeProps) {
               : null}
 
             {isCurrent
-              ? anchor(`current-station-card-${index}`, <CurrentStationCard placeAbove={placeAbove} station={station} />, {
+              ? anchor(
+                  `current-station-card-${index}`,
+                  <CurrentStationCard placeAbove={placeAbove} showStationTypeIcons={showStationTypeIcons} station={station} />,
+                  {
                   centerX: { to: stationPointId, offset: 0 },
                   ...(placeAbove
                     ? { bottom: { to: stationPointId, edge: 'bottom', gap: 0.5 } }
                     : { top: { to: stationPointId, edge: 'top', gap: 0.5 } }),
-                })
-              : anchor(`station-label-${index}`, <StationTextBlock station={station} />, {
+                },
+                )
+              : anchor(`station-label-${index}`, <StationTextBlock showStationTypeIcons={showStationTypeIcons} station={station} />, {
                   centerX: { to: stationPointId, offset: 0 },
                   ...(placeAbove
                     ? { bottom: { to: 'route-line-reference', edge: 'top', gap: topLabelGap } }

@@ -11,6 +11,7 @@ import {
   setDirection,
   setIdColor,
   setLineId,
+  setShowStationTypeIcons,
   setTotalLength,
   updateStation,
   type GeneratorState,
@@ -120,6 +121,7 @@ const toStationItem = (draft: StationFormDraft, id: string): StationItem => ({
   id,
   chName: draft.chName.trim(),
   enName: draft.enName.trim(),
+  type: draft.type,
   transfer: sanitizeTransfer(draft.transfer),
 });
 
@@ -364,6 +366,14 @@ function App() {
           <label className="field-label">
             <span>idColor（线路标识色）</span>
             <input type="color" value={generator.idColor} onChange={(event) => dispatch(setIdColor(event.target.value))} />
+          </label>
+          <label className="field-label field-label-checkbox">
+            <input
+              type="checkbox"
+              checked={generator.showStationTypeIcons}
+              onChange={(event) => dispatch(setShowStationTypeIcons(event.target.checked))}
+            />
+            <span>在火车站或机场站名前添加图标（测试）</span>
           </label>
         </div>
       </section>
